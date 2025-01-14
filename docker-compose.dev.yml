@@ -1,0 +1,52 @@
+services:
+  devfiles-postgres:
+    image: postgres:16-alpine
+    container_name: devfiles-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=devfiles
+      - POSTGRES_USER=devfiles
+      - POSTGRES_PASSWORD=123
+    ports:
+      - "5432:5432"
+    volumes:
+      - devfiles-postgres-data:/var/lib/postgresql/data
+    networks:
+      devfiles-network:
+        aliases:
+          - devfiles-api
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U devfiles" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  devfiles-api:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    container_name: devfiles-api
+    restart: unless-stopped
+    volumes:
+      - .:/api
+      - ~/.m2:/root/.m2
+    ports:
+      - "8080:8080"
+      - "35729:35729"
+      - "5005:5005"
+    networks:
+      devfiles-network:
+        aliases:
+          - devfiles-api
+    depends_on:
+      devfiles-postgres:
+        condition: service_healthy
+
+networks:
+  devfiles-network:
+    name: devfiles-network
+    driver: bridge
+
+volumes:
+  devfiles-postgres-data:
+    name: devfiles-postgres-data
