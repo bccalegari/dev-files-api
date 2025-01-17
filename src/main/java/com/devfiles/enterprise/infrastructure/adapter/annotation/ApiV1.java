@@ -17,13 +17,14 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@RequestMapping(
-        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-        produces = {"application/vnd.devfiles.v1+json", "application/vnd.devfiles.v1+xml"}
-)
+@RequestMapping
 @Operation
 @ApiResponse
 public @interface ApiV1 {
+    String[] consumes() default {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE};
+
+    String[] produces() default {"application/vnd.devfiles.v1+json", "application/vnd.devfiles.v1+xml"};
+
     @AliasFor(annotation = RequestMapping.class, attribute = "path")
     String path() default "";
 

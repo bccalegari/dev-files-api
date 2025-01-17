@@ -8,12 +8,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 @Qualifier("userJpaRepositoryGateway")
 public class UserJpaRepositoryGateway implements UserRepositoryGateway {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    @Override
+    public Optional<User> findBySlug(String slug) {
+        return userRepository.findBySlugAndDeletedAtIsNull(slug).map(userMapper::toDomain);
+    }
+
+    @Override
+    public Optional<User> findByUsernameOrEmail(String username, String email) {
+        return userRepository.findByUsernameOrEmailAndDeletedAtIsNull(username, email).map(userMapper::toDomain);
+    }
 
     @Override
     public boolean exists(User user) {

@@ -3,23 +3,20 @@ package com.devfiles.enterprise.infrastructure.adapter.dto;
 import com.devfiles.enterprise.domain.constant.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @JsonPropertyOrder({"metadata", "data", "error"})
+@XmlRootElement
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "response")
-@XmlRootElement(name = "response")
-@XmlAccessorType(XmlAccessType.FIELD)
+@Schema(description = "Response object")
 public class ResponseDto<T> {
     @Schema(description = "Response metadata")
     private Metadata metadata;
@@ -46,6 +43,9 @@ public class ResponseDto<T> {
         private String timestamp;
     }
 
+    @NoArgsConstructor
+    public static class Empty {}
+
     public static <T> ResponseDto<T> success(T data, String message) {
         return ResponseDto.<T>builder()
                 .metadata(Metadata.builder()
@@ -53,6 +53,15 @@ public class ResponseDto<T> {
                         .timestamp(LocalDateTime.now().toString())
                         .build())
                 .data(data)
+                .build();
+    }
+
+    public static <T> ResponseDto<T> success(String message) {
+        return ResponseDto.<T>builder()
+                .metadata(Metadata.builder()
+                        .message(message)
+                        .timestamp(LocalDateTime.now().toString())
+                        .build())
                 .build();
     }
 

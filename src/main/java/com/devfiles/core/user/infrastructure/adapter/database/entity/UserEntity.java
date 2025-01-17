@@ -24,6 +24,9 @@ public class UserEntity {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    String slug;
+
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)

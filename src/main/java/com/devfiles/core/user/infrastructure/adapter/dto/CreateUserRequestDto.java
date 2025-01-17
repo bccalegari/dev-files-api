@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Builder
 @Getter
@@ -24,6 +25,7 @@ public class CreateUserRequestDto {
     @Size(min = 8, max = 50, message = "Password must be between 8 and 50 characters.")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
             message = "Password must contain at least one uppercase letter, one lowercase letter, and one number.")
+    @Setter
     private String password;
 
     @Schema(description = "Password confirmation. Must match the password field.", example = "string")

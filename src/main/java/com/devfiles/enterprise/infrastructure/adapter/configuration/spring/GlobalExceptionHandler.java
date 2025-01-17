@@ -36,8 +36,8 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(error -> String.format("Field: %s, Message: %s", error.getField(), error.getDefaultMessage()))
                 .toList();
-        var responseDto = ResponseDto.error(ErrorCode.INVALID_REQUEST, errors.toString());
-        return ResponseEntity.status(ErrorCode.INVALID_REQUEST.getHttpStatus()).body(responseDto);
+        var responseDto = ResponseDto.error(ErrorCode.BAD_REQUEST, errors.toString());
+        return ResponseEntity.status(ErrorCode.BAD_REQUEST.getHttpStatus()).body(responseDto);
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(MessageSourceResolvable::getDefaultMessage)
                 .toList();
-        var responseDto = ResponseDto.error(ErrorCode.INVALID_REQUEST, errors.toString());
-        return ResponseEntity.status(ErrorCode.INVALID_REQUEST.getHttpStatus()).body(responseDto);
+        var responseDto = ResponseDto.error(ErrorCode.BAD_REQUEST, errors.toString());
+        return ResponseEntity.status(ErrorCode.BAD_REQUEST.getHttpStatus()).body(responseDto);
     }
 }
