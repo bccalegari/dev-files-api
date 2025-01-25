@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/tokens")
+@RequestMapping(path = "/tokens")
 @Tag(name = "Token", description = "Endpoints for authentication")
 @RequiredArgsConstructor
 public class RefreshTokenController {
     private final RefreshTokenUseCase refreshTokenUseCase;
 
     @ApiPatchV1(
-            path = "/",
             responseCode = "200",
             responseDescription = "OK",
             summary = "Refresh token",

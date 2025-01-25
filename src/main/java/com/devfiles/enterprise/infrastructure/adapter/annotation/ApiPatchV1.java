@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @ApiV1(method = RequestMethod.PATCH, responseCode = "204", responseDescription = "No content")
 public @interface ApiPatchV1 {
     @AliasFor(annotation = ApiV1.class, attribute = "path")
-    String path();
+    String path() default "";
 
     @AliasFor(annotation = ApiV1.class, attribute = "responseCode")
     String responseCode() default "204";

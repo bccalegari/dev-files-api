@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/tokens")
+@RequestMapping(path = "/tokens")
 @Tag(name = "Token", description = "Endpoints for token management")
 @RequiredArgsConstructor
 public class CreateTokenController {
     private final CreateTokenUseCase createTokenUseCase;
 
     @ApiPostV1(
-            path = "/",
             summary = "Create a new token",
             description = "Authenticate a user with username and password and return a access and refresh token",
             tags = {"Token"}

@@ -54,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private void setRequestAttribute(HttpServletRequest request, String subject) {
         if (!subject.isEmpty()) {
-            request.setAttribute("user_slug", subject);
+            request.setAttribute("logged_in_user_slug", subject);
             setSpringSecurityContext(subject);
         }
     }

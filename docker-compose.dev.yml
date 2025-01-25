@@ -21,6 +21,47 @@ services:
       timeout: 5s
       retries: 5
 
+  devfiles-rabbitmq:
+    build:
+      context: rabbitmq
+    container_name: devfiles-rabbitmq
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=devfiles
+      - RABBITMQ_DEFAULT_PASS=123
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    volumes:
+      - ./rabbitmq/rabbit-definitions.json:/etc/rabbitmq/definitions.template.json
+      - ./rabbitmq/init.sh:/usr/local/bin/setup_rabbitmq.sh
+    entrypoint: [ "/bin/bash", "/usr/local/bin/setup_rabbitmq.sh" ]
+    networks:
+      devfiles-network:
+        aliases:
+          - devfiles-rabbitmq
+    healthcheck:
+      test: [ "CMD-SHELL", "rabbitmqctl node_health_check" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  devfiles-redis:
+    image: redis:6-alpine
+    container_name: devfiles-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      devfiles-network:
+        aliases:
+          - devfiles-redis
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   devfiles-api:
     build:
       context: .
@@ -40,6 +81,10 @@ services:
           - devfiles-api
     depends_on:
       devfiles-postgres:
+        condition: service_healthy
+      devfiles-rabbitmq:
+        condition: service_healthy
+      devfiles-redis:
         condition: service_healthy
 
 networks:

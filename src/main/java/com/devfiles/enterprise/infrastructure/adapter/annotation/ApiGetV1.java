@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 )
 public @interface ApiGetV1 {
     @AliasFor(annotation = ApiV1.class, attribute = "path")
-    String path();
+    String path() default "";
 
     @AliasFor(annotation = ApiV1.class, attribute = "summary")
     String summary();

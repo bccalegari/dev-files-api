@@ -5,23 +5,46 @@ import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class HealthCheckUseCase {
     @PersistenceContext
     private final EntityManager entityManager;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     public ResponseDto<ResponseDto.Empty> execute() {
-        var isDatabaseHealthy = entityManager.createNativeQuery("SELECT 1").getSingleResult();
 
-        if (isDatabaseHealthy.equals(1)) {
-            return ResponseDto.<ResponseDto.Empty>success("Application is running healthy");
+        if (isDatabaseHealthy() && isCacheHealthy() && isMessageBrokerHealthy()) {
+            return ResponseDto.success("Application is running healthy");
         } else {
-            return ResponseDto.<ResponseDto.Empty>error(
+            return ResponseDto.error(
                     ErrorCode.INTERNAL_SERVER_ERROR, "Database is not healthy"
             );
+        }
+    }
+
+    private boolean isDatabaseHealthy() {
+        return entityManager.createNativeQuery("SELECT 1").getSingleResult().equals(1);
+    }
+
+    private boolean isCacheHealthy() {
+        return Objects.equals(
+                Objects.requireNonNull(redisTemplate.getConnectionFactory()).getConnection().ping(), "PONG"
+        );
+    }
+
+    private boolean isMessageBrokerHealthy() {
+        try (var connection = rabbitTemplate.getConnectionFactory().createConnection()) {
+            return connection.isOpen();
+        } catch (Exception e) {
+            return false;
         }
     }
 }

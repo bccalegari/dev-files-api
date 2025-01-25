@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @ApiV1(method = RequestMethod.POST, responseCode = "201", responseDescription = "Created")
 public @interface ApiPostV1 {
     @AliasFor(annotation = ApiV1.class, attribute = "path")
-    String path();
+    String path() default "";
 
     @AliasFor(annotation = ApiV1.class, attribute = "summary")
     String summary();

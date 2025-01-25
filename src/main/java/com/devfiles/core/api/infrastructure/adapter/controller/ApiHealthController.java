@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/health")
+@RequestMapping(path = "/api/health")
 @Tag(name = "Api", description = "Endpoints for application management")
 @RequiredArgsConstructor
 public class ApiHealthController {
     private final HealthCheckUseCase healthCheckUseCase;
 
     @ApiGetV1(
-            path = "/",
             summary = "Health check",
             description = "Check if the application is running",
             tags = {"Api"}

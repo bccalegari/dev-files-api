@@ -1,5 +1,6 @@
 package com.devfiles.core.user.infrastructure.adapter.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
@@ -34,5 +35,6 @@ public class CreateUserRequestDto {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
             message = "Password confirmation must contain at least one uppercase letter, one lowercase letter, and one number.")
     @NotEmpty(message = "Password confirmation field is required.")
+    @JsonProperty("password_confirmation")
     private String passwordConfirmation;
 }

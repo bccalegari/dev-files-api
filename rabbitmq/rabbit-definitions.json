@@ -1,0 +1,109 @@
+{
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "users": [
+    {
+      "name": "${RABBITMQ_DEFAULT_USER}",
+      "password": "${RABBITMQ_DEFAULT_PASS}",
+      "tags": "administrator"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "${RABBITMQ_DEFAULT_USER}",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "queues": [
+    {
+      "name": "registration-invite-queue",
+      "vhost": "/",
+      "durable": true,
+      "arguments": {
+        "x-dead-letter-exchange": "dead-registration-invite-letter-exchange",
+        "x-dead-letter-routing-key": "dead-registration-invite-key"
+      }
+    },
+    {
+      "name": "dead-registration-invite-queue",
+      "vhost": "/",
+      "durable": true
+    },
+    {
+      "name": "password-reset-queue",
+      "vhost": "/",
+      "durable": true,
+      "arguments": {
+        "x-dead-letter-exchange": "dead-password-reset-letter-exchange",
+        "x-dead-letter-routing-key": "dead-password-reset-key"
+      }
+    },
+    {
+      "name": "dead-password-reset-queue",
+      "vhost": "/",
+      "durable": true
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "registration-invite-exchange",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true
+    },
+    {
+      "name": "dead-registration-invite-letter-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true
+    },
+    {
+      "name": "password-reset-exchange",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true
+    },
+    {
+      "name": "dead-password-reset-letter-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true
+    }
+  ],
+  "bindings": [
+    {
+      "source": "registration-invite-exchange",
+      "vhost": "/",
+      "destination": "registration-invite-queue",
+      "destination_type": "queue",
+      "routing_key": "registration-invite-key"
+    },
+    {
+      "source": "dead-registration-invite-letter-exchange",
+      "vhost": "/",
+      "destination": "dead-registration-invite-queue",
+      "destination_type": "queue",
+      "routing_key": "dead-registration-invite-key"
+    },
+    {
+      "source": "password-reset-exchange",
+      "vhost": "/",
+      "destination": "password-reset-queue",
+      "destination_type": "queue",
+      "routing_key": "password-reset-key"
+    },
+    {
+      "source": "dead-password-reset-letter-exchange",
+      "vhost": "/",
+      "destination": "dead-password-reset-queue",
+      "destination_type": "queue",
+      "routing_key": "dead-password-reset-key"
+    }
+  ]
+}

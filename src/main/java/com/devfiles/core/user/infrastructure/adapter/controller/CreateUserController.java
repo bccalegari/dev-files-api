@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(path = "/users")
 @Tag(name = "User", description = "Endpoints for user management")
 @RequiredArgsConstructor
 public class CreateUserController {
     private final CreateUserUseCase createUserUseCase;
 
     @ApiPostV1(
-            path = "/",
             summary = "Create a new user",
             description = "Create a new user",
             tags = {"User"}
