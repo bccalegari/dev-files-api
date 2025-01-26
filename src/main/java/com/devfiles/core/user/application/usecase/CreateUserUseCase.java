@@ -1,30 +1,24 @@
 package com.devfiles.core.user.application.usecase;
 
-import com.devfiles.core.user.abstraction.UserRepositoryGateway;
 import com.devfiles.core.user.application.exception.UserAlreadyExistsException;
+import com.devfiles.core.user.application.service.UserMessageBrokerService;
+import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.core.user.infrastructure.adapter.dto.CreateUserRequestDto;
 import com.devfiles.core.user.infrastructure.adapter.dto.CreateUserResponseDto;
 import com.devfiles.core.user.infrastructure.adapter.mapper.UserMapper;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CreateUserUseCase {
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     private final UserMapper userMapper;
-    private final UserRepositoryGateway userRepositoryGateway;
-
-    public CreateUserUseCase(
-        UserMapper userMapper,
-        @Qualifier("userJpaRepositoryGateway") UserRepositoryGateway userRepositoryGateway
-    ) {
-        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        this.userMapper = userMapper;
-        this.userRepositoryGateway = userRepositoryGateway;
-    }
+    private final UserService userService;
+    private final UserMessageBrokerService userMessageBrokerService;
 
     @Transactional
     public ResponseDto<CreateUserResponseDto> execute(CreateUserRequestDto createUserRequestDto) {
@@ -32,11 +26,11 @@ public class CreateUserUseCase {
 
         var user = userMapper.toDomain(createUserRequestDto);
 
-        if (userRepositoryGateway.exists(user)) {
+        if (userService.exists(user)) {
             throw new UserAlreadyExistsException();
         }
 
-        user = userRepositoryGateway.save(user);
+        user = userService.save(user);
 
         var createUserResponseDto = CreateUserResponseDto.builder()
                 .slug(user.getSlug().getValue())
@@ -45,6 +39,10 @@ public class CreateUserUseCase {
                 .active(user.isActive())
                 .createdAt(user.getCreatedAt())
                 .build();
+
+        //TODO - Create Invitation
+
+        userMessageBrokerService.sendInvitationRegistrationMessage(user);
 
         return ResponseDto.success(createUserResponseDto, "User created successfully");
     }
