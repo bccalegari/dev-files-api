@@ -1,31 +1,21 @@
 package com.devfiles.core.user.infrastructure.adapter.database.entity;
 
-import jakarta.persistence.*;
+import com.devfiles.enterprise.infrastructure.adapter.database.entity.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-import org.hibernate.annotations.SQLDelete;
-
-import java.time.LocalDateTime;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(schema = "\"user\"", name = "users")
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, unique = true)
-    String slug;
-
+public class UserEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -35,22 +25,6 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
     @Column(nullable = false)
     private boolean active;
-
-    @PrePersist
-    public void prePersist() {
-        var now = LocalDateTime.now();
-        createdAt = now;
-        updatedAt = now;
-    }
 }

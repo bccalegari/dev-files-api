@@ -1,10 +1,12 @@
 package com.devfiles.enterprise.domain.valueobject;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @Getter
+@ToString
 public class Slug {
     private final String value;
 
@@ -25,6 +27,6 @@ public class Slug {
     }
 
     private String generateValue() {
-        return System.currentTimeMillis() + "-" + UUID.randomUUID().toString();
+        return System.currentTimeMillis() + "-" + UUID.randomUUID();
     }
 }

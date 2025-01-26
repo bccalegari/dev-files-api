@@ -1,21 +1,20 @@
 package com.devfiles.core.user.domain;
 
-import com.devfiles.enterprise.domain.valueobject.Slug;
-import lombok.Builder;
+import com.devfiles.enterprise.domain.entity.BaseDomain;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-
-@Builder
+@SuperBuilder
 @Getter
-public class User {
-    private Long id;
-    private Slug slug;
+@NoArgsConstructor
+public class User extends BaseDomain {
     private String username;
     private String password;
     private String email;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
     private boolean active;
+
+    public void activate() {
+        active = true;
+    }
 }

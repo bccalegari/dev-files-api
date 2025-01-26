@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@ApiV1(method = RequestMethod.PATCH, responseCode = "204", responseDescription = "No content")
+@ApiV1(method = RequestMethod.PATCH, consumes = {}, responseCode = "204", responseDescription = "No content")
 public @interface ApiPatchV1 {
     @AliasFor(annotation = ApiV1.class, attribute = "path")
     String path() default "";

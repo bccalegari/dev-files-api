@@ -21,8 +21,10 @@ import java.lang.annotation.Target;
 @Operation
 @ApiResponse
 public @interface ApiV1 {
+    @AliasFor(annotation = RequestMapping.class, attribute = "consumes")
     String[] consumes() default {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE};
 
+    @AliasFor(annotation = RequestMapping.class, attribute = "produces")
     String[] produces() default {"application/vnd.devfiles.v1+json", "application/vnd.devfiles.v1+xml"};
 
     @AliasFor(annotation = RequestMapping.class, attribute = "path")

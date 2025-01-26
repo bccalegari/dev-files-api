@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "user".users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL,
     active BOOLEAN DEFAULT FALSE NOT NULL,
-    CONSTRAINT unique_slug UNIQUE (slug),
-    CONSTRAINT unique_username UNIQUE (username),
-    CONSTRAINT unique_email UNIQUE (email)
+    CONSTRAINT unique_user_slug UNIQUE (slug),
+    CONSTRAINT unique_user_username UNIQUE (username),
+    CONSTRAINT unique_user_email UNIQUE (email)
 );

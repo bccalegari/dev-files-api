@@ -1,4 +1,4 @@
-package com.devfiles.enterprise.infrastructure.adapter.abstraction;
+package com.devfiles.enterprise.abstraction;
 
 import java.time.Duration;
 

@@ -2,8 +2,7 @@ package com.devfiles.core.token.application.usecase;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.devfiles.core.token.infrastructure.adapter.dto.RefreshTokenResponseDto;
-import com.devfiles.core.user.abstraction.UserRepositoryGateway;
-import com.devfiles.core.user.application.exception.UserNotFoundException;
+import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.enterprise.infrastructure.adapter.configuration.jwt.JwtTokenDecoder;
 import com.devfiles.enterprise.infrastructure.adapter.configuration.jwt.JwtTokenProvider;
 import com.devfiles.enterprise.infrastructure.adapter.configuration.jwt.JwtTokenValidator;
@@ -16,8 +15,8 @@ import org.springframework.stereotype.Service;
 public class RefreshTokenUseCase {
     private final JwtTokenDecoder jwtTokenDecoder;
     private final JwtTokenValidator jwtTokenValidator;
-    private final UserRepositoryGateway userRepositoryGateway;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
     public ResponseDto<RefreshTokenResponseDto> execute(String refreshToken) {
         DecodedJWT decodedJWT = jwtTokenDecoder.execute(refreshToken);
@@ -27,8 +26,7 @@ public class RefreshTokenUseCase {
             throw new RuntimeException("Refresh token is expired");
         }
 
-        var user = userRepositoryGateway.findBySlug(slug)
-                .orElseThrow(UserNotFoundException::new);
+        var user = userService.findBySlug(slug);
 
         var token = jwtTokenProvider.generateAccessToken(user);
         var refreshTokenResponseDto = new RefreshTokenResponseDto(token);

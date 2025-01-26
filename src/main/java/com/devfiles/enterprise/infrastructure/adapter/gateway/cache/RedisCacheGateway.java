@@ -1,7 +1,7 @@
 package com.devfiles.enterprise.infrastructure.adapter.gateway.cache;
 
 
-import com.devfiles.enterprise.infrastructure.adapter.abstraction.CacheGateway;
+import com.devfiles.enterprise.abstraction.CacheGateway;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

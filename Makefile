@@ -19,8 +19,8 @@ ifndef name
 	$(error Error: Migration name is required. Use: make migration name=<migration_name>)
 else
 	@mkdir -p $(MIGRATIONS_DIR)
-	@touch $(MIGRATIONS_DIR)/$(TIMESTAMP)__$(name).sql
-	@echo "Migration created: $(MIGRATIONS_DIR)/$(TIMESTAMP)__$(name).sql"
+	@touch $(MIGRATIONS_DIR)/V$(TIMESTAMP)__$(name).sql
+	@echo "Migration created: $(MIGRATIONS_DIR)/V$(TIMESTAMP)__$(name).sql"
 endif
 
 .PHONY: run-dev
