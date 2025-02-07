@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class DeleteExpiredInvitationsSchedule {
     private final InvitationService invitationService;
 
-    @Scheduled(cron = "0 0/15 * * * *")
+    @Scheduled(cron = "0 0/5 * * * *")
     @Transactional
     public void execute() {
         log.info("Deleting expired invitations");

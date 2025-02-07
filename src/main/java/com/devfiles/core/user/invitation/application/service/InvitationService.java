@@ -36,6 +36,14 @@ public class InvitationService {
     }
 
     public int deleteExpiredInvitations() {
-        return invitationRepositoryGateway.deleteExpiredInvitations();
+        var invitations = invitationRepositoryGateway.findAll();
+
+        invitations.stream()
+                .filter(Invitation::isExpired)
+                .forEach(Invitation::delete);
+
+        invitationRepositoryGateway.saveAll(invitations);
+
+        return invitations.size();
     }
 }

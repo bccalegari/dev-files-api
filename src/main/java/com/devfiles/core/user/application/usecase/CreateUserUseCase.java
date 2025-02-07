@@ -3,9 +3,13 @@ package com.devfiles.core.user.application.usecase;
 import com.devfiles.core.user.application.exception.UserAlreadyExistsException;
 import com.devfiles.core.user.application.service.UserMessageBrokerService;
 import com.devfiles.core.user.application.service.UserService;
+import com.devfiles.core.user.domain.User;
 import com.devfiles.core.user.infrastructure.adapter.dto.CreateUserRequestDto;
 import com.devfiles.core.user.infrastructure.adapter.dto.CreateUserResponseDto;
 import com.devfiles.core.user.infrastructure.adapter.mapper.UserMapper;
+import com.devfiles.core.user.invitation.application.service.InvitationService;
+import com.devfiles.core.user.invitation.domain.entity.Invitation;
+import com.devfiles.core.user.invitation.domain.valueobject.InvitationCode;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,7 @@ public class CreateUserUseCase {
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     private final UserMapper userMapper;
     private final UserService userService;
+    private final InvitationService invitationService;
     private final UserMessageBrokerService userMessageBrokerService;
 
     @Transactional
@@ -40,10 +45,18 @@ public class CreateUserUseCase {
                 .createdAt(user.getCreatedAt())
                 .build();
 
-        //TODO - Create Invitation
+        var invitation = createInvitation(user);
 
-        userMessageBrokerService.sendInvitationRegistrationMessage(user);
+        userMessageBrokerService.sendInvitationRegistrationMessage(invitation);
 
         return ResponseDto.success(createUserResponseDto, "User created successfully");
+    }
+
+    private Invitation createInvitation(User user) {
+        var invitation = Invitation.builder()
+                .user(user)
+                .code(new InvitationCode())
+                .build();
+        return invitationService.save(invitation);
     }
 }

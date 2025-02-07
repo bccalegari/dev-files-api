@@ -1,7 +1,7 @@
 package com.devfiles.core.user.application.service;
 
-import com.devfiles.core.user.domain.User;
 import com.devfiles.core.user.infrastructure.adapter.dto.UserInvitationRegistrationMessageDto;
+import com.devfiles.core.user.invitation.domain.entity.Invitation;
 import com.devfiles.enterprise.abstraction.MessageBrokerGateway;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,11 +23,12 @@ public class UserMessageBrokerService {
         this.INVITATION_REGISTRATION_ROUTING_KEY = INVITATION_REGISTRATION_ROUTING_KEY;
     }
 
-    public void sendInvitationRegistrationMessage(User user) {
+    public void sendInvitationRegistrationMessage(Invitation invitation) {
         var payload = new UserInvitationRegistrationMessageDto(
-                user.getSlug().getValue(),
-                user.getUsername(),
-                user.getEmail()
+                invitation.getUser().getSlug().getValue(),
+                invitation.getUser().getUsername(),
+                invitation.getUser().getEmail(),
+                invitation.getCode().value()
         );
 
         messageBrokerGateway.send(

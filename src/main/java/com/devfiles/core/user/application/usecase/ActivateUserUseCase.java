@@ -6,8 +6,6 @@ import com.devfiles.core.user.infrastructure.adapter.dto.ActivateUserResponseDto
 import com.devfiles.core.user.invitation.application.exception.InvalidActivationCodeException;
 import com.devfiles.core.user.invitation.application.exception.InvitationNotFoundException;
 import com.devfiles.core.user.invitation.application.service.InvitationService;
-import com.devfiles.core.user.invitation.domain.entity.Invitation;
-import com.devfiles.enterprise.application.exception.CoreException;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +25,10 @@ public class ActivateUserUseCase {
             throw new UserAlreadyActivatedException();
         }
 
-        Invitation invitation;
+        var invitation = invitationService.findLastInvitationByUserId(user.getId());
 
-        try {
-            invitation = invitationService.findLastInvitationByUserId(user.getId());
-        } catch (InvitationNotFoundException e) {
-            throw new CoreException();
+        if (invitation.isExpired()) {
+            throw new InvitationNotFoundException();
         }
 
         if (!invitation.getCode().value().equals(code)) {

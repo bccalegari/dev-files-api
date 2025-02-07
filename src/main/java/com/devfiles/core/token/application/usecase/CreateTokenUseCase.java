@@ -3,6 +3,7 @@ package com.devfiles.core.token.application.usecase;
 import com.devfiles.core.token.infrastructure.adapter.dto.CreateTokenRequestDto;
 import com.devfiles.core.token.infrastructure.adapter.dto.CreateTokenResponseDto;
 import com.devfiles.core.user.application.exception.UserInvalidCredentialsException;
+import com.devfiles.core.user.application.exception.UserNotActiveException;
 import com.devfiles.core.user.application.exception.UserNotFoundException;
 import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.core.user.domain.User;
@@ -26,6 +27,10 @@ public class CreateTokenUseCase {
             user = userService.findByUsernameOrEmail(createTokenRequestDto.getUsername(), createTokenRequestDto.getEmail());
         } catch (UserNotFoundException e) {
             throw new UserInvalidCredentialsException();
+        }
+
+        if (!user.isActive()) {
+            throw new UserNotActiveException();
         }
 
         if (!bCryptPasswordEncoder.matches(createTokenRequestDto.getPassword(), user.getPassword())) {

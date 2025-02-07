@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -17,6 +17,11 @@ import java.util.Optional;
 public class InvitationJpaRepositoryGateway implements InvitationRepositoryGateway {
     private final InvitationRepository invitationRepository;
     private final InvitationMapper invitationMapper;
+
+    @Override
+    public List<Invitation> findAll() {
+        return invitationRepository.findAll().stream().map(invitationMapper::toDomain).toList();
+    }
 
     @Override
     public Optional<Invitation> findLastInvitationByUserId(Long userId) {
@@ -31,8 +36,9 @@ public class InvitationJpaRepositoryGateway implements InvitationRepositoryGatew
     }
 
     @Override
-    public int deleteExpiredInvitations() {
-        var expirationDate = LocalDateTime.now().minusMinutes(15);
-        return invitationRepository.deleteExpiredInvitations(expirationDate);
+    public List<Invitation> saveAll(List<Invitation> invitations) {
+        var invitationEntities = invitations.stream().map(invitationMapper::toEntity).toList();
+        var savedInvitationEntities = invitationRepository.saveAllAndFlush(invitationEntities);
+        return savedInvitationEntities.stream().map(invitationMapper::toDomain).toList();
     }
 }

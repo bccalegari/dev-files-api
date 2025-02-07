@@ -12,6 +12,10 @@ public record InvitationCode(String value) {
         this.value = value;
     }
 
+    public InvitationCode() {
+        this(null);
+    }
+
     private String generateCode() {
         return new SecureRandom().ints(0, 10)
                 .limit(6)

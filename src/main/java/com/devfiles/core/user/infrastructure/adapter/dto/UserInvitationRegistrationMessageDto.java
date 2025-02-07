@@ -1,3 +1,5 @@
 package com.devfiles.core.user.infrastructure.adapter.dto;
 
-public record UserInvitationRegistrationMessageDto(String slug, String username, String email) {}
+public record UserInvitationRegistrationMessageDto(
+        String slug, String username, String email, String invitationCode
+) {}
