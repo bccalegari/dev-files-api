@@ -5,6 +5,7 @@ import com.devfiles.core.user.invitation.domain.valueobject.InvitationCode;
 import com.devfiles.enterprise.domain.entity.BaseDomain;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 public class Invitation extends BaseDomain {
     private final User user;
-    private final InvitationCode code;
+    @Setter private InvitationCode code;
     @Builder.Default
     private boolean consumed = false;
 

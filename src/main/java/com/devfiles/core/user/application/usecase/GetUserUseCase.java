@@ -1,6 +1,6 @@
 package com.devfiles.core.user.application.usecase;
 
-import com.devfiles.core.user.application.exception.UserNotAllowedToGetAnotherUserException;
+import com.devfiles.core.user.application.exception.UserNotAllowedToManageAnotherUserResourcesException;
 import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.core.user.infrastructure.adapter.dto.GetUserResponseDto;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
@@ -13,8 +13,8 @@ public class GetUserUseCase {
     private final UserService userService;
 
     public ResponseDto<GetUserResponseDto> execute(String loggedInUserSlug, String slug) {
-        if (!isUserAllowedToGetUser(loggedInUserSlug, slug)) {
-            throw new UserNotAllowedToGetAnotherUserException();
+        if (!userService.isUserAllowedToManageAnotherUserResources(loggedInUserSlug, slug)) {
+            throw new UserNotAllowedToManageAnotherUserResourcesException();
         }
 
         var user = userService.findBySlug(slug);
@@ -29,9 +29,5 @@ public class GetUserUseCase {
             .build();
 
         return ResponseDto.success(getUserResponseDto, "User found successfully");
-    }
-
-    private boolean isUserAllowedToGetUser(String loggedInUserSlug, String userSlug) {
-        return loggedInUserSlug.equals(userSlug);
     }
 }

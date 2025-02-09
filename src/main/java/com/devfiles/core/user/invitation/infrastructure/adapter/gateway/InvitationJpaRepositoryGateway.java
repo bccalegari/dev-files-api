@@ -29,10 +29,15 @@ public class InvitationJpaRepositoryGateway implements InvitationRepositoryGatew
     }
 
     @Override
+    public boolean existsByCode(String code) {
+        return invitationRepository.existsByCode(code);
+    }
+
+    @Override
     public Invitation save(Invitation invitation) {
         var invitationEntity = invitationMapper.toEntity(invitation);
-        var savedInvitationEntity = invitationRepository.saveAndFlush(invitationEntity);
-        return invitationMapper.toDomain(savedInvitationEntity);
+        invitationEntity = invitationRepository.saveAndFlush(invitationEntity);
+        return invitationMapper.toDomain(invitationEntity);
     }
 
     @Override

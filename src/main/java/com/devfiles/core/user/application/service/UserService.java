@@ -62,17 +62,15 @@ public class UserService {
     }
 
     public User save(User user) {
-        var savedUser = userRepositoryGateway.save(user);
-
-        cacheGateway.put(
-                CacheKeys.USER.getKey().formatted(savedUser.getSlug().getValue()), savedUser, Duration.ofDays(1)
-        );
-
-        return savedUser;
+        return userRepositoryGateway.save(user);
     }
 
     public User activateUser(User user) {
         user.activate();
         return save(user);
+    }
+
+    public boolean isUserAllowedToManageAnotherUserResources(String loggedInUserSlug, String userSlug) {
+        return loggedInUserSlug.equals(userSlug);
     }
 }

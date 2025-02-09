@@ -10,6 +10,7 @@ import com.devfiles.core.user.infrastructure.adapter.mapper.UserMapper;
 import com.devfiles.core.user.invitation.application.service.InvitationService;
 import com.devfiles.core.user.invitation.domain.entity.Invitation;
 import com.devfiles.core.user.invitation.domain.valueobject.InvitationCode;
+import com.devfiles.enterprise.domain.valueobject.Slug;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -54,9 +55,15 @@ public class CreateUserUseCase {
 
     private Invitation createInvitation(User user) {
         var invitation = Invitation.builder()
+                .slug(new Slug())
                 .user(user)
                 .code(new InvitationCode())
                 .build();
+
+        while (invitationService.existsByCode(invitation.getCode().value())) {
+            invitation.setCode(new InvitationCode());
+        }
+
         return invitationService.save(invitation);
     }
 }

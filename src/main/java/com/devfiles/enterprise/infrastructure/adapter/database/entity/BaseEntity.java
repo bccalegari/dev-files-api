@@ -7,20 +7,20 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @Getter
 @Setter
 @ToString
+@MappedSuperclass
 public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    String slug;
+    @Column(name = "slug", nullable = false, unique = true)
+    private String slug;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

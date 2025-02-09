@@ -16,6 +16,9 @@ public @interface ApiPostV1 {
     @AliasFor(annotation = ApiV1.class, attribute = "path")
     String path() default "";
 
+    @AliasFor(annotation = ApiV1.class, attribute = "consumes")
+    String[] consumes() default {};
+
     @AliasFor(annotation = ApiV1.class, attribute = "summary")
     String summary();
 

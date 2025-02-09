@@ -29,4 +29,13 @@ public interface InvitationRepository extends JpaRepository<InvitationEntity, Lo
         ORDER BY i.id DESC
     """)
     Optional<InvitationEntity> findLastInvitationByUserId(@Param("userId") Long userId);
+
+    @Query(value = """
+        SELECT CASE WHEN COUNT(i) > 0 THEN TRUE ELSE FALSE END
+        FROM InvitationEntity i
+        WHERE i.code = :code
+        AND i.deletedAt IS NULL
+        AND i.consumed = FALSE
+    """)
+    boolean existsByCode(String code);
 }

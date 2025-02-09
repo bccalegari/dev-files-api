@@ -30,6 +30,10 @@ public class InvitationService {
         return invitationRepositoryGateway.save(invitation);
     }
 
+    public boolean existsByCode(String code) {
+        return invitationRepositoryGateway.existsByCode(code);
+    }
+
     public Invitation consume(Invitation invitation) {
         invitation.consume();
         return invitationRepositoryGateway.save(invitation);

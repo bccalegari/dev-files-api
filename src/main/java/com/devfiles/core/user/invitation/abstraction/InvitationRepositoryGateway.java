@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface InvitationRepositoryGateway {
     List<Invitation> findAll();
     Optional<Invitation> findLastInvitationByUserId(Long userId);
+    boolean existsByCode(String code);
     Invitation save(Invitation user);
     List<Invitation> saveAll(List<Invitation> invitations);
 }
