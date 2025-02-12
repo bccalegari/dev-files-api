@@ -40,7 +40,11 @@ public class CreateTokenUseCase {
         var accessToken = jwtTokenProvider.generateAccessToken(user);
         var refreshToken = jwtTokenProvider.generateRefreshToken(user);
 
-        var authResponseDto = new CreateTokenResponseDto(accessToken, refreshToken);
+        var authResponseDto = CreateTokenResponseDto.builder()
+                .userSlug(user.getSlug().getValue())
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
 
         return ResponseDto.success(authResponseDto, "Tokens generated successfully");
     }

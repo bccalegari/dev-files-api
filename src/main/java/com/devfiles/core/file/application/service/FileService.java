@@ -1,6 +1,7 @@
 package com.devfiles.core.file.application.service;
 
 import com.devfiles.core.file.abstraction.FileRepositoryGateway;
+import com.devfiles.core.file.application.exception.FileNotFoundException;
 import com.devfiles.core.file.domain.File;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,15 @@ public class FileService {
 
     public File save(File file) {
         return fileRepositoryGateway.save(file);
+    }
+
+    public File findBySlugAndUserId(String slug, Long userId) {
+        var fileOp = fileRepositoryGateway.findBySlugAndUserId(slug, userId);
+
+        if (fileOp.isEmpty()) {
+            throw new FileNotFoundException();
+        }
+
+        return fileOp.get();
     }
 }

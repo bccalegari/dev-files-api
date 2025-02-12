@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 @Qualifier("fileJpaRepositoryGateway")
@@ -20,5 +22,11 @@ public class FileJpaRepositoryGateway implements FileRepositoryGateway {
         var fileEntity = fileMapper.toEntity(file);
         fileEntity = fileRepository.saveAndFlush(fileEntity);
         return fileMapper.toDomain(fileEntity);
+    }
+
+    @Override
+    public Optional<File> findBySlugAndUserId(String slug, Long userId) {
+        return fileRepository.findBySlugAndUserIdAndDeletedAtIsNull(slug, userId)
+                .map(fileMapper::toDomain);
     }
 }

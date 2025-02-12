@@ -1,6 +1,5 @@
 package com.devfiles.core.user.application.usecase;
 
-import com.devfiles.core.user.application.exception.UserNotAllowedToManageAnotherUserResourcesException;
 import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.core.user.infrastructure.adapter.dto.GetUserResponseDto;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
@@ -12,11 +11,7 @@ import org.springframework.stereotype.Service;
 public class GetUserUseCase {
     private final UserService userService;
 
-    public ResponseDto<GetUserResponseDto> execute(String loggedInUserSlug, String slug) {
-        if (!userService.isUserAllowedToManageAnotherUserResources(loggedInUserSlug, slug)) {
-            throw new UserNotAllowedToManageAnotherUserResourcesException();
-        }
-
+    public ResponseDto<GetUserResponseDto> execute(String slug) {
         var user = userService.findBySlug(slug);
 
         var getUserResponseDto = GetUserResponseDto.builder()

@@ -2,9 +2,9 @@ package com.devfiles.core.file.application.usecase;
 
 import com.devfiles.core.file.application.service.FileService;
 import com.devfiles.core.file.application.service.FileValidatorService;
+import com.devfiles.core.file.application.service.GetFileUrlService;
 import com.devfiles.core.file.application.service.UploadFileService;
 import com.devfiles.core.file.infrastructure.adapter.dto.CreateFileResponseDto;
-import com.devfiles.core.user.application.exception.UserNotAllowedToManageAnotherUserResourcesException;
 import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.transaction.Transactional;
@@ -19,13 +19,10 @@ public class CreateFileUseCase {
     private final FileValidatorService fileValidatorService;
     private final UploadFileService uploadFileService;
     private final FileService fileService;
+    private final GetFileUrlService getFileUrlService;
 
     @Transactional
-    public ResponseDto<CreateFileResponseDto> execute(String loggedInUserSlug, String slug, MultipartFile file) {
-        if (!userService.isUserAllowedToManageAnotherUserResources(loggedInUserSlug, slug)) {
-            throw new UserNotAllowedToManageAnotherUserResourcesException();
-        }
-
+    public ResponseDto<CreateFileResponseDto> execute(String slug, MultipartFile file) {
         var user = userService.findBySlug(slug);
 
         fileValidatorService.execute(file);
@@ -37,6 +34,7 @@ public class CreateFileUseCase {
         var createFileResponseDto = CreateFileResponseDto.builder()
                 .slug(fileDomain.getSlug().getValue())
                 .fileName(fileDomain.getNameWithExtension())
+                .url(getFileUrlService.execute(fileDomain.getSlug().getValue(), user.getId()))
                 .mimeType(fileDomain.getMimeType())
                 .size(fileDomain.getSize())
                 .createdAt(fileDomain.getCreatedAt())

@@ -3,6 +3,7 @@ package com.devfiles.core.file.infrastructure.adapter.controller;
 import com.devfiles.core.file.application.usecase.CreateFileUseCase;
 import com.devfiles.core.file.infrastructure.adapter.dto.CreateFileResponseDto;
 import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiPostV1;
+import com.devfiles.enterprise.infrastructure.adapter.annotation.UserAuthorizationValidator;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
@@ -29,12 +30,13 @@ public class CreateFileController {
             tags = {"File"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
+    @UserAuthorizationValidator
     public ResponseEntity<ResponseDto<CreateFileResponseDto>> execute(
             @RequestAttribute(name = "logged_in_user_slug") String loggedInUserSlug,
             @PathVariable(value = "slug") String slug,
             @RequestPart(value = "file") @NotNull(message = "File is required") MultipartFile file
     ) {
-        var response = createFileUseCase.execute(loggedInUserSlug, slug, file);
+        var response = createFileUseCase.execute(slug, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

@@ -14,6 +14,8 @@ public class CreateFileResponseDto {
     @JsonProperty("file_name")
     private final String fileName;
 
+    private final String url;
+
     @JsonProperty("mime_type")
     private final String mimeType;
 

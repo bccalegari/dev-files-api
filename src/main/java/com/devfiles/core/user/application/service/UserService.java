@@ -69,8 +69,4 @@ public class UserService {
         user.activate();
         return save(user);
     }
-
-    public boolean isUserAllowedToManageAnotherUserResources(String loggedInUserSlug, String userSlug) {
-        return loggedInUserSlug.equals(userSlug);
-    }
 }

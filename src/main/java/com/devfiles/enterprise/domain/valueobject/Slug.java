@@ -27,6 +27,6 @@ public class Slug {
     }
 
     private String generateValue() {
-        return System.currentTimeMillis() + "-" + UUID.randomUUID();
+        return Long.toHexString(System.currentTimeMillis()) + "-" + UUID.randomUUID();
     }
 }
