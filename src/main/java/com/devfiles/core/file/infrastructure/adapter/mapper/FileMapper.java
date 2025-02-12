@@ -21,6 +21,9 @@ public class FileMapper {
                 .path(file.getPath())
                 .size(file.getSize())
                 .user(userMapper.toEntity(file.getUser()))
+                .createdAt(file.getCreatedAt())
+                .updatedAt(file.getUpdatedAt())
+                .deletedAt(file.getDeletedAt())
                 .build();
     }
 
@@ -33,6 +36,9 @@ public class FileMapper {
                 .path(fileEntity.getPath())
                 .size(fileEntity.getSize())
                 .user(userMapper.toDomain(fileEntity.getUser()))
+                .createdAt(fileEntity.getCreatedAt())
+                .updatedAt(fileEntity.getUpdatedAt())
+                .deletedAt(fileEntity.getDeletedAt())
                 .build();
     }
 }

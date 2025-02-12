@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(path = "users/{slug}/files")
+@RequestMapping(path = "users/{user_slug}/files")
 @Tag(name = "File", description = "Endpoints for file management")
 @RequiredArgsConstructor
 public class CreateFileController {
@@ -33,10 +33,10 @@ public class CreateFileController {
     @UserAuthorizationValidator
     public ResponseEntity<ResponseDto<CreateFileResponseDto>> execute(
             @RequestAttribute(name = "logged_in_user_slug") String loggedInUserSlug,
-            @PathVariable(value = "slug") String slug,
+            @PathVariable(value = "user_slug") String userSlug,
             @RequestPart(value = "file") @NotNull(message = "File is required") MultipartFile file
     ) {
-        var response = createFileUseCase.execute(slug, file);
+        var response = createFileUseCase.execute(userSlug, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

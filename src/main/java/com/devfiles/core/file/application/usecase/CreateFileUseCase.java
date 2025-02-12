@@ -36,7 +36,7 @@ public class CreateFileUseCase {
                 .fileName(fileDomain.getNameWithExtension())
                 .url(getFileUrlService.execute(fileDomain.getSlug().getValue(), user.getId()))
                 .mimeType(fileDomain.getMimeType())
-                .size(fileDomain.getSize())
+                .sizeInBytes(fileDomain.getSize())
                 .createdAt(fileDomain.getCreatedAt())
                 .build();
 
