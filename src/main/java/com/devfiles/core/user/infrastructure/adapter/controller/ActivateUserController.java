@@ -21,16 +21,16 @@ public class ActivateUserController {
     private final ActivateUserUseCase activateUserUseCase;
 
     @ApiPatchV1(
-            path = "/{slug}/active",
+            path = "/{user_slug}/active",
             summary = "Active user",
             description = "Active an user by slug and activation code",
             tags = {"User"}
     )
     public ResponseEntity<ResponseDto<ActivateUserResponseDto>> execute(
-            @PathVariable(value = "slug") String slug,
+            @PathVariable(value = "user_slug") String userSlug,
             @RequestParam(value = "code") String code
     ) {
-        var response = activateUserUseCase.execute(slug, code);
+        var response = activateUserUseCase.execute(userSlug, code);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
