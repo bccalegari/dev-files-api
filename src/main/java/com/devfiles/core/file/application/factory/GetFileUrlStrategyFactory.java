@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Component
 public class GetFileUrlStrategyFactory {
-    private final Map<String, GetFileUrlStrategy> getFileUrlStrategyMap;
+    private final Map<String, GetFileUrlStrategy> strategyMap;
     private final Environment environment;
 
     public GetFileUrlStrategyFactory(
@@ -18,18 +18,18 @@ public class GetFileUrlStrategyFactory {
             LocalGetFileUrlStrategy localGetFileUrlStrategy,
             CloudGetFileUrlStrategy cloudGetFileUrlStrategy
     ) {
-        this.getFileUrlStrategyMap = Map.of(
+        this.strategyMap = Map.of(
                 "local", localGetFileUrlStrategy,
                 "cloud", cloudGetFileUrlStrategy
         );
         this.environment = environment;
     }
 
-    public GetFileUrlStrategy getFileUrlStrategy() {
+    public GetFileUrlStrategy getStrategy() {
         if (isLocalEnvironment()) {
-            return getFileUrlStrategyMap.get("local");
+            return strategyMap.get("local");
         }
-        return getFileUrlStrategyMap.get("cloud");
+        return strategyMap.get("cloud");
     }
 
     private boolean isLocalEnvironment() {

@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Component
 public class UploadFileStrategyFactory {
-    private final Map<String, UploadFileStrategy> uploadFileStrategyMap;
+    private final Map<String, UploadFileStrategy> strategyMap;
     private final Environment environment;
 
     public UploadFileStrategyFactory(
@@ -18,18 +18,18 @@ public class UploadFileStrategyFactory {
             LocalUploadFileStrategy localUploadFileStrategy,
             CloudUploadFileStrategy cloudUploadFileStrategy
     ) {
-        this.uploadFileStrategyMap = Map.of(
+        this.strategyMap = Map.of(
                 "local", localUploadFileStrategy,
                 "cloud", cloudUploadFileStrategy
         );
         this.environment = environment;
     }
 
-    public UploadFileStrategy getUploadFileStrategy() {
+    public UploadFileStrategy getStrategy() {
         if (isLocalEnvironment()) {
-            return uploadFileStrategyMap.get("local");
+            return strategyMap.get("local");
         }
-        return uploadFileStrategyMap.get("cloud");
+        return strategyMap.get("cloud");
     }
 
     private boolean isLocalEnvironment() {

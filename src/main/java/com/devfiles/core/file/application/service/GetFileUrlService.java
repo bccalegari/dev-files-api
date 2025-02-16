@@ -12,7 +12,7 @@ public class GetFileUrlService {
 
     public String execute(String slug, Long userId) {
         var file = fileService.findBySlugAndUserId(slug, userId);
-        var strategy = getFileUrlStrategyFactory.getFileUrlStrategy();
+        var strategy = getFileUrlStrategyFactory.getStrategy();
         return strategy.execute(file);
     }
 }

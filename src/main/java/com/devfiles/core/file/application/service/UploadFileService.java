@@ -17,7 +17,7 @@ public class UploadFileService {
     private final FileNameService fileNameService;
 
     public File execute(MultipartFile file, User user) {
-        var uploadFileStrategy = uploadFileStrategyFactory.getUploadFileStrategy();
+        var uploadFileStrategy = uploadFileStrategyFactory.getStrategy();
 
         var fileNameParts = getFileParts(file);
         var fileName = fileNameParts[0];
@@ -31,7 +31,7 @@ public class UploadFileService {
 
         return File.builder()
                 .slug(fileSlug)
-                .name(fileNameWithId)
+                .name(normalizedFileName)
                 .mimeType(file.getContentType())
                 .path(path)
                 .size(file.getSize())
