@@ -1,11 +1,13 @@
 package com.devfiles.core.user.invitation.application.usecase;
 
+import com.devfiles.core.user.application.exception.UserAlreadyActivatedException;
 import com.devfiles.core.user.application.service.UserMessageBrokerService;
 import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.core.user.domain.User;
 import com.devfiles.core.user.invitation.application.service.InvitationService;
 import com.devfiles.core.user.invitation.domain.entity.Invitation;
 import com.devfiles.core.user.invitation.domain.valueobject.InvitationCode;
+import com.devfiles.enterprise.domain.valueobject.Slug;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,10 @@ public class ResendUserInvitationUseCase {
     @Transactional
     public void execute(String slug) {
         var user = userService.findBySlug(slug);
+
+        if (user.isActive()) {
+            throw new UserAlreadyActivatedException();
+        }
 
         var lastInvitation = invitationService.findLastInvitationByUserId(user.getId());
 
@@ -36,6 +42,7 @@ public class ResendUserInvitationUseCase {
 
     private Invitation createInvitation(User user) {
         var invitation = Invitation.builder()
+                .slug(new Slug())
                 .user(user)
                 .code(new InvitationCode())
                 .build();

@@ -23,6 +23,6 @@ public class Invitation extends BaseDomain {
     }
 
     public boolean isExpired() {
-        return this.getCreatedAt().plusMinutes(5).isAfter(LocalDateTime.now());
+        return this.getCreatedAt().plusMinutes(5).isBefore(LocalDateTime.now());
     }
 }

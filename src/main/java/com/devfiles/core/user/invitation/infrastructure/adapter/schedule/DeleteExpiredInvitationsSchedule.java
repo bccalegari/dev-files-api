@@ -17,7 +17,9 @@ public class DeleteExpiredInvitationsSchedule {
     @Transactional
     public void execute() {
         log.info("Deleting expired invitations");
+        var startTime = System.currentTimeMillis();
         var numberOfDeletedInvitations = invitationService.deleteExpiredInvitations();
-        log.info("Deleted {} expired invitations", numberOfDeletedInvitations);
+        var endTime = System.currentTimeMillis();
+        log.info("Deleted {} expired invitations in {} ms", numberOfDeletedInvitations, endTime - startTime);
     }
 }

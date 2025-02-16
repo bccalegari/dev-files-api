@@ -33,6 +33,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.POST, "/tokens").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/tokens").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/users/{user_slug}/active").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/users/{user_slug}/invitations/resend").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/{user_slug}/files/{file_slug}/resources").permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .anyRequest().authenticated()
