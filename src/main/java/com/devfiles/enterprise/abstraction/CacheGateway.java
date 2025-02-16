@@ -6,4 +6,5 @@ public interface CacheGateway {
     void put(String key, Object value);
     void put(String key, Object value, Duration ttl);
     Object get(String key);
+    void delete(String key);
 }

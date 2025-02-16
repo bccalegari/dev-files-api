@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -28,5 +29,17 @@ public class FileJpaRepositoryGateway implements FileRepositoryGateway {
     public Optional<File> findBySlugAndUserId(String slug, Long userId) {
         return fileRepository.findBySlugAndUserIdAndDeletedAtIsNull(slug, userId)
                 .map(fileMapper::toDomain);
+    }
+
+    @Override
+    public List<File> findAllFilesMarkedForRemoval() {
+        return fileRepository.findAllByDeletedAtIsNotNull().stream()
+                .map(fileMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public void markAllFilesForRemovalByUserId(Long userId) {
+        fileRepository.markAllFilesForRemovalByUserId(userId);
     }
 }

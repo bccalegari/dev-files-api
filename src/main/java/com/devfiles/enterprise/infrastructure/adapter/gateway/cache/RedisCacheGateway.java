@@ -48,6 +48,12 @@ public class RedisCacheGateway implements CacheGateway {
         return value;
     }
 
+    @Override
+    public void delete(String key) {
+        log.info("Deleting key '{}' from cache", key);
+        redisTemplate.delete(key);
+    }
+
     private void internalPut(String key, Object value, Duration ttl) {
         if (value == null) {
             log.warn("Trying to put null value in cache with key '{}' and ttl '{}'", key, ttl);

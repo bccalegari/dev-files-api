@@ -32,10 +32,20 @@ public class UserJpaRepositoryGateway implements UserRepositoryGateway {
         var entity = userMapper.toEntity(user);
 
         if (entity.getId() != null) {
-            return userRepository.existsById(entity.getId());
+            return userRepository.existsByIdAndDeletedAtIsNull(entity.getId());
         }
 
         return userRepository.existsByUsernameOrEmailAndDeletedAtIsNull(entity.getUsername(), entity.getEmail());
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsernameAndDeletedAtIsNull(username);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmailAndDeletedAtIsNull(email);
     }
 
     @Override

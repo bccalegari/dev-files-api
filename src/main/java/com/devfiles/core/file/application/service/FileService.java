@@ -6,6 +6,8 @@ import com.devfiles.core.file.domain.File;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FileService {
     private final FileRepositoryGateway fileRepositoryGateway;
@@ -28,5 +30,13 @@ public class FileService {
         }
 
         return fileOp.get();
+    }
+
+    public List<File> findAllFilesMarkedForRemoval() {
+        return fileRepositoryGateway.findAllFilesMarkedForRemoval();
+    }
+
+    public void markAllFilesForRemovalByUserId(Long userId) {
+        fileRepositoryGateway.markAllFilesForRemovalByUserId(userId);
     }
 }

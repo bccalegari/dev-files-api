@@ -61,8 +61,26 @@ public class UserService {
         return userRepositoryGateway.exists(user);
     }
 
+    public boolean existsByUsername(String username) {
+        return userRepositoryGateway.existsByUsername(username);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepositoryGateway.existsByEmail(email);
+    }
+
     public User save(User user) {
-        return userRepositoryGateway.save(user);
+        var savedUser = userRepositoryGateway.save(user);
+
+        if (user.getDeletedAt() != null) {
+            cacheGateway.delete(CacheKeys.USER.getKey().formatted(savedUser.getSlug().getValue()));
+        } else {
+            cacheGateway.put(
+                    CacheKeys.USER.getKey().formatted(savedUser.getSlug().getValue()), savedUser, Duration.ofDays(1)
+            );
+        }
+
+        return savedUser;
     }
 
     public User activateUser(User user) {
