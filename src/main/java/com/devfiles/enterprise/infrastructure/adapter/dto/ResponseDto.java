@@ -36,9 +36,16 @@ public class ResponseDto<T> {
 
     @Builder
     @Getter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Metadata {
         @Schema(description = "Message")
         private String message;
+        @Schema(description = "Total number of items")
+        private Long total;
+        @Schema(description = "Total number of pages")
+        private Integer page;
+        @Schema(description = "Number of items per page")
+        private Integer limit;
         @Schema(description = "Timestamp of the response")
         private String timestamp;
     }
@@ -62,6 +69,19 @@ public class ResponseDto<T> {
                         .message(message)
                         .timestamp(LocalDateTime.now().toString())
                         .build())
+                .build();
+    }
+
+    public static <T> ResponseDto<T> success(T data, String message, Long total, Integer page, Integer limit) {
+        return ResponseDto.<T>builder()
+                .metadata(Metadata.builder()
+                        .message(message)
+                        .total(total)
+                        .page(page)
+                        .limit(limit)
+                        .timestamp(LocalDateTime.now().toString())
+                        .build())
+                .data(data)
                 .build();
     }
 

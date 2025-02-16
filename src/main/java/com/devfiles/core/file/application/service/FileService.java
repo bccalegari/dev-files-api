@@ -3,7 +3,9 @@ package com.devfiles.core.file.application.service;
 import com.devfiles.core.file.abstraction.FileRepositoryGateway;
 import com.devfiles.core.file.application.exception.FileNotFoundException;
 import com.devfiles.core.file.domain.File;
+import com.devfiles.enterprise.infrastructure.adapter.database.Pagination;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,10 @@ public class FileService {
         }
 
         return fileOp.get();
+    }
+
+    public Page<File> findAllByUserId(Long userId, Pagination pagination) {
+        return fileRepositoryGateway.findAllByUserId(userId, pagination);
     }
 
     public List<File> findAllFilesMarkedForRemoval() {

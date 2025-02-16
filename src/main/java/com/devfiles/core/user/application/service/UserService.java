@@ -48,6 +48,12 @@ public class UserService {
     }
 
     public User findByUsernameOrEmail(String username, String email) {
+        var userFromCache = cacheGateway.get(CacheKeys.USER.getKey().formatted(username));
+
+        if (userFromCache != null) {
+            return objectMapper.convertValue(userFromCache, User.class);
+        }
+
         var userOp = userRepositoryGateway.findByUsernameOrEmail(username, email);
 
         if (userOp.isEmpty()) {
@@ -58,6 +64,12 @@ public class UserService {
     }
 
     public boolean exists(User user) {
+        var userFromCache = cacheGateway.get(CacheKeys.USER.getKey().formatted(user.getSlug().getValue()));
+
+        if (userFromCache != null) {
+            return true;
+        }
+
         return userRepositoryGateway.exists(user);
     }
 
