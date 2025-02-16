@@ -8,7 +8,13 @@ CREATE TABLE IF NOT EXISTS "user".users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     deleted_at TIMESTAMP DEFAULT NULL,
     active BOOLEAN DEFAULT FALSE NOT NULL,
-    CONSTRAINT unique_user_slug UNIQUE (slug),
-    CONSTRAINT unique_user_username UNIQUE (username),
-    CONSTRAINT unique_user_email UNIQUE (email)
+    CONSTRAINT unique_user_slug UNIQUE (slug)
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_user_username
+    ON "user".users (username)
+    WHERE deleted_at IS NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_user_email
+    ON "user".users (email)
+    WHERE deleted_at IS NULL;
