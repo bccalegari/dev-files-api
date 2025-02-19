@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/tokens")
 @Tag(name = "Token", description = "Endpoints for authentication")
 @RequiredArgsConstructor
 public class RefreshTokenController {
     private final RefreshTokenUseCase refreshTokenUseCase;
+    private final TokensLinksFactory tokensLinksFactory;
 
     @ApiPatchV1(
             responseCode = "200",
@@ -32,6 +35,11 @@ public class RefreshTokenController {
             @Valid @RequestBody RefreshTokenRequestDto refreshToken
     ) {
         var response = refreshTokenUseCase.execute(refreshToken.getToken());
+        response.createLinks(
+                List.of(
+                        tokensLinksFactory.create()
+                )
+        );
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

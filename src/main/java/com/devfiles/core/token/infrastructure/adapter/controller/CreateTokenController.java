@@ -3,6 +3,7 @@ package com.devfiles.core.token.infrastructure.adapter.controller;
 import com.devfiles.core.token.application.usecase.CreateTokenUseCase;
 import com.devfiles.core.token.infrastructure.adapter.dto.CreateTokenRequestDto;
 import com.devfiles.core.token.infrastructure.adapter.dto.CreateTokenResponseDto;
+import com.devfiles.core.user.infrastructure.adapter.controller.UsersLinksFactory;
 import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiPostV1;
 import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiResponseV1;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
@@ -15,12 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/tokens")
 @Tag(name = "Token", description = "Endpoints for token management")
 @RequiredArgsConstructor
 public class CreateTokenController {
     private final CreateTokenUseCase createTokenUseCase;
+    private final TokensLinksFactory tokensLinksFactory;
+    private final UsersLinksFactory usersLinksFactory;
 
     @ApiPostV1(
             summary = "Create a new token",
@@ -35,6 +40,12 @@ public class CreateTokenController {
             @Valid @RequestBody CreateTokenRequestDto createTokenRequestDto
     ) {
         var response = createTokenUseCase.execute(createTokenRequestDto);
+        response.createLinks(
+                List.of(
+                        tokensLinksFactory.refresh(),
+                        usersLinksFactory.user(response.getData().getUserSlug())
+                )
+        );
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

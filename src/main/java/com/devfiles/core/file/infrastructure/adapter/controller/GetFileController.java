@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "users/{user_slug}/files/{file_slug}")
 @Tag(name = "File", description = "Endpoints for file management")
 @RequiredArgsConstructor
 public class GetFileController {
     private final GetFileUseCase getFileUseCase;
+    private final FilesLinksFactory filesLinksFactory;
 
     @ApiGetV1(
             summary = "Get a file",
@@ -35,6 +38,12 @@ public class GetFileController {
             @PathVariable(value = "file_slug") String fileSlug
     ) {
         var response = getFileUseCase.execute(userSlug, fileSlug);
+        response.createLinks(
+                List.of(
+                        filesLinksFactory.self(loggedInUserSlug, response.getData().getSlug()),
+                        filesLinksFactory.delete(loggedInUserSlug, response.getData().getSlug())
+                )
+        );
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

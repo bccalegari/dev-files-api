@@ -14,12 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "users/{user_slug}/files")
 @Tag(name = "File", description = "Endpoints for file management")
 @RequiredArgsConstructor
 public class CreateFileController {
     private final CreateFileUseCase createFileUseCase;
+    private final FilesLinksFactory filesLinksFactory;
 
     @ApiPostV1(
             summary = "Create a new file",
@@ -37,6 +40,13 @@ public class CreateFileController {
             @RequestPart(value = "file") @NotNull(message = "File is required") MultipartFile file
     ) {
         var response = createFileUseCase.execute(userSlug, file);
+        response.createLinks(
+                List.of(
+                        filesLinksFactory.self(loggedInUserSlug, response.getData().getSlug()),
+                        filesLinksFactory.files(loggedInUserSlug),
+                        filesLinksFactory.delete(loggedInUserSlug, response.getData().getSlug())
+                )
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

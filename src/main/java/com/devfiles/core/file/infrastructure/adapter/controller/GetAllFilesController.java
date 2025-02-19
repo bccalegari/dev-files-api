@@ -21,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetAllFilesController {
     private final GetAllFilesUseCase getAllFilesUseCase;
+    private final FilesLinksFactory filesLinksFactory;
 
     @ApiGetV1(
             summary = "Get all files",
@@ -37,6 +38,30 @@ public class GetAllFilesController {
 
     ) {
         var response = getAllFilesUseCase.execute(userSlug, requestParams);
+        response.createLinks(getLinks(loggedInUserSlug, requestParams));
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    private List<ResponseDto.Link> getLinks(String loggedInUserSlug, GetAllFilesRequestParams requestParams) {
+        return List.of(
+                filesLinksFactory.filesPrevious(
+                        loggedInUserSlug,
+                        requestParams.getPage() <= 1 ? 1 : requestParams.getPage() - 1,
+                        requestParams.getLimit(),
+                        requestParams.getSearch(),
+                        requestParams.getSort(),
+                        requestParams.getSortBy()
+                ),
+                filesLinksFactory.filesNext(
+                        loggedInUserSlug,
+                        requestParams.getPage() + 1,
+                        requestParams.getLimit(),
+                        requestParams.getSearch(),
+                        requestParams.getSort(),
+                        requestParams.getSortBy()
+                ),
+                filesLinksFactory.file(loggedInUserSlug),
+                filesLinksFactory.delete(loggedInUserSlug, "{file_slug}")
+        );
     }
 }

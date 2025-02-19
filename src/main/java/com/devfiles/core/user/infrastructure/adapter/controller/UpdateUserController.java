@@ -13,12 +13,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/users")
 @Tag(name = "User", description = "Endpoints for user management")
 @RequiredArgsConstructor
 public class UpdateUserController {
     private final UpdateUserUseCase updateUserUseCase;
+    private final UsersLinksFactory usersLinksFactory;
 
     @ApiPatchV1(
             path = "/{user_slug}",
@@ -33,6 +36,12 @@ public class UpdateUserController {
             @Valid @RequestBody UpdateUserRequestDto updateUserRequestDto
     ) {
         var response = updateUserUseCase.execute(userSlug, updateUserRequestDto);
+        response.createLinks(
+                List.of(
+                        usersLinksFactory.self(response.getData().getSlug()),
+                        usersLinksFactory.delete(response.getData().getSlug())
+                )
+        );
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

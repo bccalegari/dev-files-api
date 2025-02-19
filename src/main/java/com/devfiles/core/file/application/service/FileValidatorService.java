@@ -11,8 +11,6 @@ import java.io.IOException;
 @Service
 public class FileValidatorService {
     private static final String[] ALLOWED_FILE_MIME_TYPES = {
-        "image/jpeg",
-        "image/png",
         "application/pdf"
     };
 

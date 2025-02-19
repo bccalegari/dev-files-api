@@ -1,11 +1,13 @@
 package com.devfiles.enterprise.infrastructure.adapter.configuration.spring;
 
-import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import com.devfiles.enterprise.application.exception.CoreException;
 import com.devfiles.enterprise.domain.constant.ErrorCode;
+import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,6 +28,24 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage(), exception);
         var responseDto = ResponseDto.error(exception.getErrorCode(), exception.getMessage());
         return ResponseEntity.status(exception.getErrorCode().getHttpStatus()).body(responseDto);
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
+    public ResponseEntity<ResponseDto<Object>> handleHttpMediaTypeNotAcceptableException(
+            HttpMediaTypeNotAcceptableException exception
+    ) {
+        log.error("Media type not acceptable: {}", exception.getMessage(), exception);
+        var responseDto = ResponseDto.error(ErrorCode.NOT_ACCEPTABLE, exception.getMessage());
+        return ResponseEntity.status(ErrorCode.NOT_ACCEPTABLE.getHttpStatus()).body(responseDto);
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ResponseDto<Object>> handleHttpMediaTypeNotSupportedException(
+            HttpMediaTypeNotSupportedException exception
+    ) {
+        log.error("Media type not supported: {}", exception.getMessage(), exception);
+        var responseDto = ResponseDto.error(ErrorCode.UNSUPPORTED_MEDIA_TYPE, exception.getMessage());
+        return ResponseEntity.status(ErrorCode.UNSUPPORTED_MEDIA_TYPE.getHttpStatus()).body(responseDto);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
