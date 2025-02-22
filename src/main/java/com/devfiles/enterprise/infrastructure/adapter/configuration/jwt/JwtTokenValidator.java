@@ -11,7 +11,7 @@ public class JwtTokenValidator {
         var isExpired = decodedJWT.getExpiresAtAsInstant().isBefore(Instant.now());
         var isInvalidIssuer = !decodedJWT.getIssuer().equals("devfiles.com");
 
-        return isExpired || isInvalidIssuer;
+        return !isExpired && !isInvalidIssuer;
     }
 }
 

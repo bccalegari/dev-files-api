@@ -1,4 +1,4 @@
-package com.devfiles.enterprise.application.service;
+package com.devfiles.enterprise.infrastructure.adapter;
 
 import com.devfiles.core.user.application.exception.UserNotAllowedToManageAnotherUserResourcesException;
 import org.springframework.stereotype.Service;

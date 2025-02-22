@@ -37,7 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         var decodedJwt = jwtTokenDecoder.execute(bearerToken);
 
-        if (jwtTokenValidator.execute(decodedJwt)) {
+        if (!jwtTokenValidator.execute(decodedJwt)) {
             filterChain.doFilter(request, response);
         }
 

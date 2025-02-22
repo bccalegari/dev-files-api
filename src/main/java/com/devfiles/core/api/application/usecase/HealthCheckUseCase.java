@@ -25,7 +25,7 @@ public class HealthCheckUseCase {
             return ResponseDto.success("Application is running healthy");
         } else {
             return ResponseDto.error(
-                    ErrorCode.INTERNAL_SERVER_ERROR, "Database is not healthy"
+                    ErrorCode.INTERNAL_SERVER_ERROR, "Application is not running healthy"
             );
         }
     }

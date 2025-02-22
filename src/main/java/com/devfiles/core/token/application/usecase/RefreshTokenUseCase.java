@@ -22,7 +22,7 @@ public class RefreshTokenUseCase {
         DecodedJWT decodedJWT = jwtTokenDecoder.execute(refreshToken);
         String slug = decodedJWT.getSubject();
 
-        if (jwtTokenValidator.execute(decodedJWT)) {
+        if (!jwtTokenValidator.execute(decodedJWT)) {
             throw new RuntimeException("Refresh token is expired");
         }
 
