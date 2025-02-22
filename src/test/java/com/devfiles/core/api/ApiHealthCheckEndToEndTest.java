@@ -1,4 +1,4 @@
-package com.devfiles;
+package com.devfiles.core.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class ApiHealthControllerEndToEndTest {
+public class ApiHealthCheckEndToEndTest {
 
     @Container
     @ServiceConnection
