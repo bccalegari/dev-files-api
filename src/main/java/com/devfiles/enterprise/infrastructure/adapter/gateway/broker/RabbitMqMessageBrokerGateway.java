@@ -1,4 +1,4 @@
-package com.devfiles.enterprise.infrastructure.adapter.gateway.cache;
+package com.devfiles.enterprise.infrastructure.adapter.gateway.broker;
 
 import com.devfiles.enterprise.abstraction.MessageBrokerGateway;
 import com.fasterxml.jackson.core.JsonProcessingException;
