@@ -8,13 +8,13 @@ import com.devfiles.core.user.infrastructure.adapter.dto.UpdateUserResponseDto;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UpdateUserUseCase {
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
     @Transactional
@@ -71,7 +71,7 @@ public class UpdateUserUseCase {
 
     private void updatePassword(User user, UpdateUserRequestDto updateUserRequestDto) {
         if (updateUserRequestDto.getPassword() != null) {
-            user.setPassword(bCryptPasswordEncoder.encode(updateUserRequestDto.getPassword()));
+            user.setPassword(passwordEncoder.encode(updateUserRequestDto.getPassword()));
         }
     }
 }

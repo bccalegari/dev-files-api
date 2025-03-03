@@ -14,13 +14,13 @@ import com.devfiles.enterprise.domain.valueobject.Slug;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class CreateUserUseCase {
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final UserService userService;
     private final InvitationService invitationService;
@@ -28,7 +28,7 @@ public class CreateUserUseCase {
 
     @Transactional
     public ResponseDto<CreateUserResponseDto> execute(CreateUserRequestDto createUserRequestDto) {
-        createUserRequestDto.setPassword(bCryptPasswordEncoder.encode(createUserRequestDto.getPassword()));
+        createUserRequestDto.setPassword(passwordEncoder.encode(createUserRequestDto.getPassword()));
 
         var user = userMapper.toDomain(createUserRequestDto);
 

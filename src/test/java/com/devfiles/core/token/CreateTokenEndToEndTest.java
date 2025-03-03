@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +22,8 @@ public class CreateTokenEndToEndTest extends AbstractTestContainersTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -41,7 +42,7 @@ public class CreateTokenEndToEndTest extends AbstractTestContainersTest {
                 .slug("user-slug")
                 .username("user-username")
                 .email("user-email")
-                .password(bCryptPasswordEncoder.encode("user-password"))
+                .password(passwordEncoder.encode("user-password"))
                 .active(true)
                 .build();
 
@@ -119,7 +120,7 @@ public class CreateTokenEndToEndTest extends AbstractTestContainersTest {
                 .slug("inactive-user-slug")
                 .username("inactive-user-username")
                 .email("inactive-user-email")
-                .password(bCryptPasswordEncoder.encode("inactive-user-password"))
+                .password(passwordEncoder.encode("inactive-user-password"))
                 .active(false)
                 .build();
 

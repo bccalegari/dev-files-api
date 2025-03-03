@@ -10,14 +10,14 @@ import com.devfiles.core.user.domain.User;
 import com.devfiles.enterprise.infrastructure.adapter.configuration.jwt.JwtTokenProvider;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class CreateTokenUseCase {
     private final UserService userService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
     public ResponseDto<CreateTokenResponseDto> execute(CreateTokenRequestDto createTokenRequestDto) {
@@ -33,7 +33,7 @@ public class CreateTokenUseCase {
             throw new UserNotActiveException();
         }
 
-        if (!bCryptPasswordEncoder.matches(createTokenRequestDto.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(createTokenRequestDto.getPassword(), user.getPassword())) {
             throw new UserInvalidCredentialsException();
         }
 
