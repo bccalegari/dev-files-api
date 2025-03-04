@@ -1,0 +1,32 @@
+name: Build and Test Project
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and Test Project
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install xmllint
+        run: sudo apt-get install -y libxml2-utils
+
+      - name: Extract Java version from pom.xml
+        run: |
+          JAVA_VERSION=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="properties"]/*[local-name()="java.version"]/text()' pom.xml)
+          echo "JAVA_VERSION=$JAVA_VERSION" >> $GITHUB_ENV
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build and Test with Maven
+        run: mvn -B clean verify
