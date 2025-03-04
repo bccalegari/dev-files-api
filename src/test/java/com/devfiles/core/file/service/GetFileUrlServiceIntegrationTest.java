@@ -63,24 +63,24 @@ public class GetFileUrlServiceIntegrationTest extends AbstractTestContainersTest
                 "test".getBytes()
         );
 
-        var user = User.builder()
-                .id(1L)
-                .slug(Slug.of("test"))
+        var userEntity = UserEntity.builder()
+                .slug("test")
                 .email("test@test.com")
                 .username("test")
                 .password("test")
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        var userEntity = UserEntity.builder()
-                .slug(user.getSlug().getValue())
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .createdAt(user.getCreatedAt())
-                .build();
+        userEntity = userRepository.save(userEntity);
 
-        userRepository.save(userEntity);
+        var user = User.builder()
+                .id(userEntity.getId())
+                .slug(Slug.of(userEntity.getSlug()))
+                .email(userEntity.getEmail())
+                .username(userEntity.getUsername())
+                .password(userEntity.getPassword())
+                .createdAt(userEntity.getCreatedAt())
+                .build();
 
         uploadedFile = uploadFileService.execute(file, user);
 
