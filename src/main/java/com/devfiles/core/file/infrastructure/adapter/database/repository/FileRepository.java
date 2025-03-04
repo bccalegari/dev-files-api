@@ -14,6 +14,14 @@ import java.util.Optional;
 
 @Repository
 public interface FileRepository extends JpaRepository<FileEntity, Long> {
+    @Query(value = """
+        SELECT f
+        FROM FileEntity f
+        JOIN FETCH f.user
+        WHERE f.slug = :slug
+        AND f.user.id = :userId
+        AND f.deletedAt IS NULL
+    """)
     Optional<FileEntity> findBySlugAndUserIdAndDeletedAtIsNull(String slug, Long userId);
 
     Page<FileEntity> findAll(Specification<FileEntity> specification, Pageable pageable);

@@ -32,10 +32,6 @@ services:
     ports:
       - "5673:5672"
       - "15673:15672"
-    volumes:
-      - ./rabbitmq/rabbit-definitions.json:/etc/rabbitmq/definitions.template.json
-      - ./rabbitmq/init.sh:/usr/local/bin/setup_rabbitmq.sh
-    entrypoint: [ "/bin/bash", "/usr/local/bin/setup_rabbitmq.sh" ]
     networks:
       devfiles-network:
         aliases:
@@ -66,6 +62,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-dev
+    env_file:
+      - .env
     container_name: devfiles-api
     restart: unless-stopped
     volumes:

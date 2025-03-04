@@ -35,6 +35,8 @@ public class DeleteMarkedForRemovalFilesSchedule {
         try (var forkJoinPool = new ForkJoinPool(PARALLELISM_LEVEL)) {
             forkJoinPool.submit(() -> files.parallelStream()
                     .forEach(deleteFileStrategy::execute)).get();
+
+            fileService.hardDeleteAll(files);
         } catch (Exception e) {
             log.error("Error while deleting files", e);
         }

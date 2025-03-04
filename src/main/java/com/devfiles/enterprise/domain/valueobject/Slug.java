@@ -27,6 +27,6 @@ public class Slug {
     }
 
     private String generateValue() {
-        return System.currentTimeMillis() + "-" + UUID.randomUUID();
+        return UUID.randomUUID().toString();
     }
 }

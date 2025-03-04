@@ -31,7 +31,7 @@ public class UploadFileService {
 
         return File.builder()
                 .slug(fileSlug)
-                .name(normalizedFileName)
+                .name(fileNameWithId)
                 .mimeType(file.getContentType())
                 .path(path)
                 .size(file.getSize())

@@ -13,4 +13,5 @@ public interface FileRepositoryGateway {
     Page<File> findAllByUserId(Long userId, Pagination pagination);
     List<File> findAllFilesMarkedForRemoval();
     void markAllFilesForRemovalByUserId(Long userId);
+    void hardDeleteAll(List<File> files);
 }

@@ -57,4 +57,13 @@ public class FileJpaRepositoryGateway implements FileRepositoryGateway {
     public void markAllFilesForRemovalByUserId(Long userId) {
         fileRepository.markAllFilesForRemovalByUserId(userId);
     }
+
+    @Override
+    public void hardDeleteAll(List<File> files) {
+        var fileEntities = files.stream()
+                .map(fileMapper::toEntity)
+                .toList();
+
+        fileRepository.deleteAll(fileEntities);
+    }
 }

@@ -45,4 +45,8 @@ public class FileService {
     public void markAllFilesForRemovalByUserId(Long userId) {
         fileRepositoryGateway.markAllFilesForRemovalByUserId(userId);
     }
+
+    public void hardDeleteAll(List<File> files) {
+        fileRepositoryGateway.hardDeleteAll(files);
+    }
 }
