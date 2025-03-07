@@ -27,7 +27,8 @@
       "durable": true,
       "arguments": {
         "x-dead-letter-exchange": "dead-registration-invite-letter-exchange",
-        "x-dead-letter-routing-key": "dead-registration-invite-key"
+        "x-dead-letter-routing-key": "dead-registration-invite-key",
+        "x-message-ttl": 60000
       }
     },
     {
@@ -41,7 +42,8 @@
       "durable": true,
       "arguments": {
         "x-dead-letter-exchange": "dead-password-reset-letter-exchange",
-        "x-dead-letter-routing-key": "dead-password-reset-key"
+        "x-dead-letter-routing-key": "dead-password-reset-key",
+        "x-message-ttl": 60000
       }
     },
     {

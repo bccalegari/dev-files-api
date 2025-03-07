@@ -3,9 +3,9 @@ package com.devfiles.core.token.application.usecase;
 import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.core.user.domain.User;
 import com.devfiles.enterprise.domain.valueobject.Slug;
-import com.devfiles.enterprise.infrastructure.adapter.configuration.jwt.JwtTokenDecoder;
-import com.devfiles.enterprise.infrastructure.adapter.configuration.jwt.JwtTokenProvider;
-import com.devfiles.enterprise.infrastructure.adapter.configuration.jwt.JwtTokenValidator;
+import com.devfiles.enterprise.infrastructure.configuration.jwt.JwtTokenDecoder;
+import com.devfiles.enterprise.infrastructure.configuration.jwt.JwtTokenProvider;
+import com.devfiles.enterprise.infrastructure.configuration.jwt.JwtTokenValidator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

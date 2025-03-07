@@ -2,8 +2,8 @@ package com.devfiles.core.file.infrastructure.adapter.controller;
 
 import com.devfiles.core.file.application.usecase.GetFileUseCase;
 import com.devfiles.core.file.infrastructure.adapter.dto.GetFileResponseDto;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiGetV1;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.UserAuthorizationValidator;
+import com.devfiles.enterprise.infrastructure.annotation.ApiGetV1;
+import com.devfiles.enterprise.infrastructure.annotation.UserAuthorizationValidator;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

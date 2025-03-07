@@ -10,7 +10,7 @@ import com.devfiles.core.user.domain.User;
 import com.devfiles.core.user.infrastructure.adapter.database.entity.UserEntity;
 import com.devfiles.core.user.infrastructure.adapter.database.repository.UserRepository;
 import com.devfiles.enterprise.domain.valueobject.Slug;
-import com.devfiles.enterprise.infrastructure.adapter.configuration.aws.AwsCredentialsProviderConfiguration;
+import com.devfiles.enterprise.infrastructure.configuration.aws.AwsCredentialsProviderConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

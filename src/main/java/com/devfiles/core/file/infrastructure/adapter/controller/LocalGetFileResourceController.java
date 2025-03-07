@@ -1,7 +1,7 @@
 package com.devfiles.core.file.infrastructure.adapter.controller;
 
 import com.devfiles.core.file.application.usecase.LocalGetFileResourceUseCase;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiGetV1;
+import com.devfiles.enterprise.infrastructure.annotation.ApiGetV1;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;

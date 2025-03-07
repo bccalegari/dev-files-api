@@ -2,7 +2,7 @@ package com.devfiles.core.user.invitation.infrastructure.adapter.controller;
 
 import com.devfiles.core.user.infrastructure.adapter.controller.UsersLinksFactory;
 import com.devfiles.core.user.invitation.application.usecase.ResendUserInvitationUseCase;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiPatchV1;
+import com.devfiles.enterprise.infrastructure.annotation.ApiPatchV1;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

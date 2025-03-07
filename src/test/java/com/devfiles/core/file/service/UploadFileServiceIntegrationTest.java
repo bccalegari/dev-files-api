@@ -4,7 +4,7 @@ import com.devfiles.AbstractTestContainersTest;
 import com.devfiles.core.file.application.service.UploadFileService;
 import com.devfiles.core.user.domain.User;
 import com.devfiles.enterprise.domain.valueobject.Slug;
-import com.devfiles.enterprise.infrastructure.adapter.configuration.aws.AwsCredentialsProviderConfiguration;
+import com.devfiles.enterprise.infrastructure.configuration.aws.AwsCredentialsProviderConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

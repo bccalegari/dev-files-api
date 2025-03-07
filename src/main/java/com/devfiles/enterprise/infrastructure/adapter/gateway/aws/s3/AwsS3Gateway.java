@@ -1,7 +1,7 @@
 package com.devfiles.enterprise.infrastructure.adapter.gateway.aws.s3;
 
-import com.devfiles.enterprise.infrastructure.adapter.configuration.aws.AwsS3ClientFactory;
-import com.devfiles.enterprise.infrastructure.adapter.configuration.aws.AwsS3PresignerFactory;
+import com.devfiles.enterprise.infrastructure.configuration.aws.AwsS3ClientFactory;
+import com.devfiles.enterprise.infrastructure.configuration.aws.AwsS3PresignerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

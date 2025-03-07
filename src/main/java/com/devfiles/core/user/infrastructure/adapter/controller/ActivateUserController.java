@@ -3,7 +3,7 @@ package com.devfiles.core.user.infrastructure.adapter.controller;
 import com.devfiles.core.token.infrastructure.adapter.controller.TokensLinksFactory;
 import com.devfiles.core.user.application.usecase.ActivateUserUseCase;
 import com.devfiles.core.user.infrastructure.adapter.dto.ActivateUserResponseDto;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiPatchV1;
+import com.devfiles.enterprise.infrastructure.annotation.ApiPatchV1;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ActivateUserController {
     private final ActivateUserUseCase activateUserUseCase;
-    private final UsersLinksFactory usersLinksFactory;
     private final TokensLinksFactory tokensLinksFactory;
 
     @ApiPatchV1(

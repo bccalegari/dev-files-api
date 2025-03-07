@@ -7,7 +7,7 @@ import com.devfiles.core.user.application.exception.UserNotActiveException;
 import com.devfiles.core.user.application.exception.UserNotFoundException;
 import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.core.user.domain.User;
-import com.devfiles.enterprise.infrastructure.adapter.configuration.jwt.JwtTokenProvider;
+import com.devfiles.enterprise.infrastructure.configuration.jwt.JwtTokenProvider;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

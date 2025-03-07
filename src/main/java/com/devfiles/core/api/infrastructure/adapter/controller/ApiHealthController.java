@@ -1,7 +1,7 @@
 package com.devfiles.core.api.infrastructure.adapter.controller;
 
 import com.devfiles.core.api.application.usecase.HealthCheckUseCase;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiGetV1;
+import com.devfiles.enterprise.infrastructure.annotation.ApiGetV1;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
