@@ -18,7 +18,7 @@ import java.lang.reflect.Parameter;
 public class UserAuthorizationAspect {
     private final UserAllowedToManageAnotherUserResourcesValidator validator;
 
-    @Around("@annotation(com.devfiles.enterprise.infrastructure.adapter.annotation.UserAuthorizationValidator)")
+    @Around("@annotation(com.devfiles.enterprise.infrastructure.annotation.UserAuthorizationValidator)")
     public Object validateUserAuthorization(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();

@@ -1,8 +1,8 @@
 package com.devfiles.core.user.infrastructure.adapter.controller;
 
 import com.devfiles.core.user.application.usecase.DeleteUserUseCase;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiDeleteV1;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.UserAuthorizationValidator;
+import com.devfiles.enterprise.infrastructure.annotation.ApiDeleteV1;
+import com.devfiles.enterprise.infrastructure.annotation.UserAuthorizationValidator;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

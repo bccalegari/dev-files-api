@@ -26,7 +26,12 @@ public class RabbitMqMessageBrokerGateway implements MessageBrokerGateway {
 
         log.info("Sending message '{}' with body '{}' to exchange '{}' and routing key '{}'",
                 message, messageBody, exchange, routingKey);
-        rabbitTemplate.convertAndSend(exchange, routingKey, message);
+        try {
+            rabbitTemplate.convertAndSend(exchange, routingKey, message);
+        } catch (Exception e) {
+            log.error("Error sending message", e);
+            throw new RuntimeException(e);
+        }
     }
 
     private String parsePayload(Object message) {

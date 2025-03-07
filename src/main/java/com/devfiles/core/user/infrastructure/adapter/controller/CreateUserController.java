@@ -4,7 +4,7 @@ import com.devfiles.core.user.application.usecase.CreateUserUseCase;
 import com.devfiles.core.user.infrastructure.adapter.dto.CreateUserRequestDto;
 import com.devfiles.core.user.infrastructure.adapter.dto.CreateUserResponseDto;
 import com.devfiles.core.user.invitation.infrastructure.adapter.controller.UsersInvitationsLinksFactory;
-import com.devfiles.enterprise.infrastructure.adapter.annotation.ApiPostV1;
+import com.devfiles.enterprise.infrastructure.annotation.ApiPostV1;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
