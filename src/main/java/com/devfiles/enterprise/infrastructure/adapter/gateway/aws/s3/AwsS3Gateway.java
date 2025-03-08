@@ -4,7 +4,6 @@ import com.devfiles.enterprise.infrastructure.configuration.aws.AwsS3ClientFacto
 import com.devfiles.enterprise.infrastructure.configuration.aws.AwsS3PresignerFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -20,7 +19,6 @@ import java.time.Duration;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile("!local")
 public class AwsS3Gateway {
     private final AwsS3ClientFactory s3ClientFactory;
     private final AwsS3PresignerFactory s3PresignerFactory;

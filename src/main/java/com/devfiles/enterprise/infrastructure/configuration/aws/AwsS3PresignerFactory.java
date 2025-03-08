@@ -1,7 +1,6 @@
 package com.devfiles.enterprise.infrastructure.configuration.aws;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.regions.Region;
@@ -9,7 +8,6 @@ import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
 @Component
 @RequiredArgsConstructor
-@Profile("!local")
 public class AwsS3PresignerFactory {
     private final AwsCredentialsProviderConfiguration credentialsProvider;
     private final Environment environment;

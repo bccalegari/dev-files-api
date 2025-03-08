@@ -1,7 +1,7 @@
 package com.devfiles.enterprise.infrastructure.adapter.interceptor;
 
 import com.devfiles.core.user.application.exception.UserNotAllowedToManageAnotherUserResourcesException;
-import com.devfiles.enterprise.infrastructure.adapter.UserAllowedToManageAnotherUserResourcesValidator;
+import com.devfiles.enterprise.infrastructure.adapter.validator.UserAllowedToManageAnotherUserResourcesValidator;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.jupiter.api.BeforeAll;

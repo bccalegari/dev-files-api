@@ -1,4 +1,4 @@
-package com.devfiles.enterprise.infrastructure.adapter;
+package com.devfiles.enterprise.infrastructure.adapter.validator;
 
 import com.devfiles.core.user.application.exception.UserNotAllowedToManageAnotherUserResourcesException;
 import org.springframework.stereotype.Service;

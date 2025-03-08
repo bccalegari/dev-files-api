@@ -1,6 +1,6 @@
 package com.devfiles.enterprise.infrastructure.adapter.interceptor;
 
-import com.devfiles.enterprise.infrastructure.adapter.UserAllowedToManageAnotherUserResourcesValidator;
+import com.devfiles.enterprise.infrastructure.adapter.validator.UserAllowedToManageAnotherUserResourcesValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

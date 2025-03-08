@@ -8,4 +8,4 @@
                                                       |_|
  :: dev-files   ::                ${application.formatted-version}
  :: spring-boot ::                ${spring-boot.formatted-version}
- :: java        ::                (${java.version})
+ :: java        ::                 (${java.version})

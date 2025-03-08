@@ -17,7 +17,6 @@ public class RedisConfig {
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         var redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setEnableTransactionSupport(true);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
 
         var objectMapper = new ObjectMapper();

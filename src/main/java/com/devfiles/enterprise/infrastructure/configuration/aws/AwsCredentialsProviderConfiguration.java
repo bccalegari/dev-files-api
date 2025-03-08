@@ -1,19 +1,17 @@
 package com.devfiles.enterprise.infrastructure.configuration.aws;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 @Configuration
-@Profile("!local")
+@RequiredArgsConstructor
 public class AwsCredentialsProviderConfiguration {
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
 
     @Bean
     public AwsCredentialsProvider awsCredentialsProvider() {
