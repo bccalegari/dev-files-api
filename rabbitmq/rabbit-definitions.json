@@ -9,6 +9,11 @@
       "name": "${RABBITMQ_DEFAULT_USER}",
       "password": "${RABBITMQ_DEFAULT_PASS}",
       "tags": "administrator"
+    },
+    {
+      "name": "${NOTIFICATION_SERVICE_USER}",
+      "password": "${NOTIFICATION_SERVICE_PASS}",
+      "tags": "consumer-producer"
     }
   ],
   "permissions": [
@@ -16,6 +21,13 @@
       "user": "${RABBITMQ_DEFAULT_USER}",
       "vhost": "/",
       "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "${NOTIFICATION_SERVICE_USER}",
+      "vhost": "/",
+      "configure": "",
       "write": ".*",
       "read": ".*"
     }
@@ -28,13 +40,28 @@
       "arguments": {
         "x-dead-letter-exchange": "dead-registration-invite-letter-exchange",
         "x-dead-letter-routing-key": "dead-registration-invite-key",
-        "x-message-ttl": 60000
+        "x-message-ttl": 120000
       }
     },
     {
       "name": "dead-registration-invite-queue",
       "vhost": "/",
-      "durable": true
+      "durable": true,
+      "arguments": {
+        "x-message-ttl": 604800000,
+        "x-queue-mode": "lazy"
+      }
+    },
+    {
+      "name": "registration-invite-retry-queue",
+      "vhost": "/",
+      "durable": true,
+      "arguments": {
+        "x-dead-letter-exchange": "registration-invite-exchange",
+        "x-dead-letter-routing-key": "registration-invite-key",
+        "x-message-ttl": 60000,
+        "x-queue-mode": "lazy"
+      }
     },
     {
       "name": "password-reset-queue",
@@ -43,20 +70,41 @@
       "arguments": {
         "x-dead-letter-exchange": "dead-password-reset-letter-exchange",
         "x-dead-letter-routing-key": "dead-password-reset-key",
-        "x-message-ttl": 60000
+        "x-message-ttl": 120000
+      }
+    },
+    {
+      "name": "password-reset-retry-queue",
+      "vhost": "/",
+      "durable": true,
+      "arguments": {
+        "x-dead-letter-exchange": "password-reset-exchange",
+        "x-dead-letter-routing-key": "password-reset-key",
+        "x-message-ttl": 60000,
+        "x-queue-mode": "lazy"
       }
     },
     {
       "name": "dead-password-reset-queue",
       "vhost": "/",
-      "durable": true
+      "durable": true,
+      "arguments": {
+        "x-message-ttl": 604800000,
+        "x-queue-mode": "lazy"
+      }
     }
   ],
   "exchanges": [
     {
       "name": "registration-invite-exchange",
       "vhost": "/",
-      "type": "topic",
+      "type": "direct",
+      "durable": true
+    },
+    {
+      "name": "registration-invite-retry-exchange",
+      "vhost": "/",
+      "type": "direct",
       "durable": true
     },
     {
@@ -68,7 +116,13 @@
     {
       "name": "password-reset-exchange",
       "vhost": "/",
-      "type": "topic",
+      "type": "direct",
+      "durable": true
+    },
+    {
+      "name": "password-reset-retry-exchange",
+      "vhost": "/",
+      "type": "direct",
       "durable": true
     },
     {
@@ -87,6 +141,13 @@
       "routing_key": "registration-invite-key"
     },
     {
+      "source": "registration-invite-retry-exchange",
+      "vhost": "/",
+      "destination": "registration-invite-retry-queue",
+      "destination_type": "queue",
+      "routing_key": "registration-invite-retry-key"
+    },
+    {
       "source": "dead-registration-invite-letter-exchange",
       "vhost": "/",
       "destination": "dead-registration-invite-queue",
@@ -99,6 +160,13 @@
       "destination": "password-reset-queue",
       "destination_type": "queue",
       "routing_key": "password-reset-key"
+    },
+    {
+      "source": "password-reset-retry-exchange",
+      "vhost": "/",
+      "destination": "password-reset-retry-queue",
+      "destination_type": "queue",
+      "routing_key": "password-reset-retry-key"
     },
     {
       "source": "dead-password-reset-letter-exchange",

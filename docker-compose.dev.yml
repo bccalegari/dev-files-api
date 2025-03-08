@@ -29,6 +29,8 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=devfiles
       - RABBITMQ_DEFAULT_PASS=123
+      - NOTIFICATION_SERVICE_USER=notification
+      - NOTIFICATION_SERVICE_PASS=123
     ports:
       - "5673:5672"
       - "15673:15672"

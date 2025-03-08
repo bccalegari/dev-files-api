@@ -1,10 +1,12 @@
 package com.devfiles.enterprise.infrastructure.adapter.gateway.broker;
 
 import com.devfiles.enterprise.abstraction.MessageBrokerGateway;
+import com.devfiles.enterprise.domain.valueobject.TraceId;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -45,6 +47,9 @@ public class RabbitMqMessageBrokerGateway implements MessageBrokerGateway {
     private Message createMessage(String messageBody) {
         var messageProperties = new MessageProperties();
         messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
+        var traceId = new TraceId(MDC.get(TraceId.TRACE_ID_MDC_KEY));
+        traceId.registerMessageBrokerHeader(messageProperties);
+        messageProperties.setHeader("x-retry-count", 0);
         return new Message(messageBody.getBytes(), messageProperties);
     }
 }
