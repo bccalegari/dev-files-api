@@ -26,6 +26,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         String acceptHeader = request.getHeader("Accept");
 
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
         if (acceptHeader.equals("application/vnd.devfiles.v1+xml")) {
             response.setContentType("application/xml");
             response.getWriter().write(convertToXml(responseDto));

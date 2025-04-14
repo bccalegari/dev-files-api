@@ -15,8 +15,13 @@ public class File extends BaseDomain {
     private String mimeType;
     private Long size;
     private User user;
+    private boolean embedded;
 
     public String getNameWithExtension() {
         return name + "." + mimeType.split("/")[1];
+    }
+
+    public void embed() {
+        embedded = true;
     }
 }

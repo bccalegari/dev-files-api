@@ -20,6 +20,8 @@ public enum FilesLinks implements AbstractLinks {
     CREATE("create", "/users/%s/files", "Create a new file", "POST", true,
             false),
     DELETE("delete", "/users/%s/files/%s", "Delete a specific file", "DELETE", true,
+            false),
+    QUERY("query", "/users/%s/files/%s/query", "Query a specific file", "POST", true,
             false);
 
     private final String rel;

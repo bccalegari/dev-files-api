@@ -43,6 +43,7 @@ public class CreateFileController {
         response.createLinks(
                 List.of(
                         filesLinksFactory.self(loggedInUserSlug, response.getData().getSlug()),
+                        filesLinksFactory.query(loggedInUserSlug, response.getData().getSlug()),
                         filesLinksFactory.files(loggedInUserSlug),
                         filesLinksFactory.delete(loggedInUserSlug, response.getData().getSlug())
                 )

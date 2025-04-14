@@ -78,4 +78,14 @@ public class FilesLinksFactory {
                 .templated(FilesLinks.DELETE.isTemplated())
                 .build();
     }
+
+    public ResponseDto.Link query(String userSlug, String fileSlug) {
+        return ResponseDto.Link.builder()
+                .rel(FilesLinks.QUERY.getRel())
+                .href(String.format(FilesLinks.QUERY.getHref(), userSlug, fileSlug))
+                .title(FilesLinks.QUERY.getTitle())
+                .requiresAuth(FilesLinks.QUERY.isRequiresAuth())
+                .templated(FilesLinks.QUERY.isTemplated())
+                .build();
+    }
 }

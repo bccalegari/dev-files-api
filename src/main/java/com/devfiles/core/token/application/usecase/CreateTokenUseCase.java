@@ -29,12 +29,12 @@ public class CreateTokenUseCase {
             throw new UserInvalidCredentialsException();
         }
 
-        if (!user.isActive()) {
-            throw new UserNotActiveException();
-        }
-
         if (!passwordEncoder.matches(createTokenRequestDto.getPassword(), user.getPassword())) {
             throw new UserInvalidCredentialsException();
+        }
+
+        if (!user.isActive()) {
+            throw new UserNotActiveException();
         }
 
         var accessToken = jwtTokenProvider.generateAccessToken(user);

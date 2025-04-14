@@ -22,6 +22,9 @@ public @interface ApiPostV1 {
     @AliasFor(annotation = ApiV1.class, attribute = "summary")
     String summary();
 
+    @AliasFor(annotation = ApiV1.class, attribute = "responseCode")
+    String responseCode() default "201";
+
     @AliasFor(annotation = ApiV1.class, attribute = "description")
     String description();
 

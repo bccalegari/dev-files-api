@@ -24,6 +24,7 @@ public class FileMapper {
                 .createdAt(file.getCreatedAt())
                 .updatedAt(file.getUpdatedAt())
                 .deletedAt(file.getDeletedAt())
+                .embedded(file.isEmbedded())
                 .build();
     }
 
@@ -39,6 +40,7 @@ public class FileMapper {
                 .createdAt(fileEntity.getCreatedAt())
                 .updatedAt(fileEntity.getUpdatedAt())
                 .deletedAt(fileEntity.getDeletedAt())
+                .embedded(fileEntity.isEmbedded())
                 .build();
     }
 }

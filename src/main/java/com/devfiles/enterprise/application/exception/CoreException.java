@@ -18,4 +18,9 @@ public class CoreException extends RuntimeException {
     protected String message = DEFAULT_MESSAGE;
     protected Integer httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value();
     protected ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+
+    public CoreException(String message) {
+        super(message);
+        this.message = message;
+    }
 }

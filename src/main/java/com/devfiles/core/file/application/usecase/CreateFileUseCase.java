@@ -1,14 +1,13 @@
 package com.devfiles.core.file.application.usecase;
 
-import com.devfiles.core.file.application.service.FileService;
-import com.devfiles.core.file.application.service.FileValidatorService;
-import com.devfiles.core.file.application.service.GetFileUrlService;
-import com.devfiles.core.file.application.service.UploadFileService;
+import com.devfiles.core.file.application.service.*;
+import com.devfiles.core.file.domain.NewFileEvent;
 import com.devfiles.core.file.infrastructure.adapter.dto.CreateFileResponseDto;
 import com.devfiles.core.user.application.service.UserService;
 import com.devfiles.enterprise.infrastructure.adapter.dto.ResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +19,7 @@ public class CreateFileUseCase {
     private final UploadFileService uploadFileService;
     private final FileService fileService;
     private final GetFileUrlService getFileUrlService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional
     public ResponseDto<CreateFileResponseDto> execute(String slug, MultipartFile file) {
@@ -39,6 +39,8 @@ public class CreateFileUseCase {
                 .sizeInBytes(fileDomain.getSize())
                 .createdAt(fileDomain.getCreatedAt())
                 .build();
+
+        applicationEventPublisher.publishEvent(new NewFileEvent(fileDomain));
 
         return ResponseDto.success(createFileResponseDto, "File created successfully");
     }

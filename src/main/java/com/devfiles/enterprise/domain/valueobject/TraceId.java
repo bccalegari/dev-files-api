@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 public class TraceId {
-    public static final String TRACE_ID_HTTP_HEADER = "X-Trace-Id";
+    public static final String TRACE_ID_HTTP_HEADER = "X-Trace-ID";
     public static final String TRACE_ID_BROKER_HEADER = "x-trace-id";
     public static final String TRACE_ID_MDC_KEY = "traceId";
 
