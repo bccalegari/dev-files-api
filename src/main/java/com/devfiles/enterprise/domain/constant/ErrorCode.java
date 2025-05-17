@@ -13,6 +13,7 @@ public enum ErrorCode {
     FORBIDDEN(403),
     NOT_FOUND(404),
     NOT_ACCEPTABLE(406),
+    CONFLICT(409),
     UNSUPPORTED_MEDIA_TYPE(415);
 
     private final int httpStatus;
