@@ -1,0 +1,12 @@
+{
+  "data": {
+    "ids": [
+      "file-12345",
+      "file-67890"
+    ]
+  },
+  "metadata": {
+    "message": "Request processed successfully",
+    "timestamp": "2023-11-01T12:00:00Z"
+  }
+}
