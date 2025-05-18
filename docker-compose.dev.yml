@@ -21,28 +21,51 @@ services:
       timeout: 5s
       retries: 5
 
-  devfiles-rabbitmq:
+  devfiles-rabbitmq1:
     build:
       context: rabbitmq
-    container_name: devfiles-rabbitmq
-    restart: unless-stopped
+      dockerfile: Dockerfile
+    hostname: devfiles-rabbitmq1
+    container_name: devfiles-rabbitmq1
     environment:
-      - RABBITMQ_DEFAULT_USER=devfiles
-      - RABBITMQ_DEFAULT_PASS=123
-      - NOTIFICATION_SERVICE_USER=notification
-      - NOTIFICATION_SERVICE_PASS=123
+      RABBITMQ_NODENAME: devfiles-rabbitmq@devfiles-rabbitmq1
+      RABBITMQ_ERLANG_COOKIE: devfiles123
+      RABBITMQ_DEFAULT_USER: devfiles
+      RABBITMQ_DEFAULT_PASS: 123
+      NOTIFICATION_SERVICE_USER: notification
+      NOTIFICATION_SERVICE_PASS: 123
     ports:
       - "5673:5672"
       - "15673:15672"
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     networks:
-      devfiles-network:
+      rabbitmq-cluster:
         aliases:
-          - devfiles-rabbitmq
+          - devfiles-rabbitmq1
     healthcheck:
       test: [ "CMD-SHELL", "rabbitmqctl node_health_check" ]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  devfiles-rabbitmq2:
+    build:
+      context: rabbitmq
+      dockerfile: Dockerfile
+    hostname: devfiles-rabbitmq2
+    container_name: devfiles-rabbitmq2
+    environment:
+      RABBITMQ_NODENAME: devfiles-rabbitmq@devfiles-rabbitmq2
+      RABBITMQ_ERLANG_COOKIE: devfiles123
+      RABBITMQ_DEFAULT_USER: devfiles
+      RABBITMQ_DEFAULT_PASS: 123
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    networks:
+      rabbitmq-cluster:
+        aliases:
+          - devfiles-rabbitmq2
 
   devfiles-redis:
     image: redis:6-alpine
@@ -79,10 +102,13 @@ services:
       devfiles-network:
         aliases:
           - devfiles-api
+      rabbitmq-cluster:
+        aliases:
+          - devfiles-api
     depends_on:
       devfiles-postgres:
         condition: service_healthy
-      devfiles-rabbitmq:
+      devfiles-rabbitmq1:
         condition: service_healthy
       devfiles-redis:
         condition: service_healthy
@@ -90,6 +116,10 @@ services:
 networks:
   devfiles-network:
     name: devfiles-network
+    driver: bridge
+    external: true
+  rabbitmq-cluster:
+    name: rabbitmq-cluster
     driver: bridge
     external: true
 

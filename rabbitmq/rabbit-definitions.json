@@ -38,6 +38,7 @@
       "vhost": "/",
       "durable": true,
       "arguments": {
+        "x-queue-type": "quorum",
         "x-dead-letter-exchange": "dead-registration-invite-letter-exchange",
         "x-dead-letter-routing-key": "dead-registration-invite-key",
         "x-message-ttl": 120000
@@ -62,36 +63,6 @@
         "x-message-ttl": 60000,
         "x-queue-mode": "lazy"
       }
-    },
-    {
-      "name": "password-reset-queue",
-      "vhost": "/",
-      "durable": true,
-      "arguments": {
-        "x-dead-letter-exchange": "dead-password-reset-letter-exchange",
-        "x-dead-letter-routing-key": "dead-password-reset-key",
-        "x-message-ttl": 120000
-      }
-    },
-    {
-      "name": "password-reset-retry-queue",
-      "vhost": "/",
-      "durable": true,
-      "arguments": {
-        "x-dead-letter-exchange": "password-reset-exchange",
-        "x-dead-letter-routing-key": "password-reset-key",
-        "x-message-ttl": 60000,
-        "x-queue-mode": "lazy"
-      }
-    },
-    {
-      "name": "dead-password-reset-queue",
-      "vhost": "/",
-      "durable": true,
-      "arguments": {
-        "x-message-ttl": 604800000,
-        "x-queue-mode": "lazy"
-      }
     }
   ],
   "exchanges": [
@@ -109,24 +80,6 @@
     },
     {
       "name": "dead-registration-invite-letter-exchange",
-      "vhost": "/",
-      "type": "direct",
-      "durable": true
-    },
-    {
-      "name": "password-reset-exchange",
-      "vhost": "/",
-      "type": "direct",
-      "durable": true
-    },
-    {
-      "name": "password-reset-retry-exchange",
-      "vhost": "/",
-      "type": "direct",
-      "durable": true
-    },
-    {
-      "name": "dead-password-reset-letter-exchange",
       "vhost": "/",
       "type": "direct",
       "durable": true
@@ -153,27 +106,6 @@
       "destination": "dead-registration-invite-queue",
       "destination_type": "queue",
       "routing_key": "dead-registration-invite-key"
-    },
-    {
-      "source": "password-reset-exchange",
-      "vhost": "/",
-      "destination": "password-reset-queue",
-      "destination_type": "queue",
-      "routing_key": "password-reset-key"
-    },
-    {
-      "source": "password-reset-retry-exchange",
-      "vhost": "/",
-      "destination": "password-reset-retry-queue",
-      "destination_type": "queue",
-      "routing_key": "password-reset-retry-key"
-    },
-    {
-      "source": "dead-password-reset-letter-exchange",
-      "vhost": "/",
-      "destination": "dead-password-reset-queue",
-      "destination_type": "queue",
-      "routing_key": "dead-password-reset-key"
     }
   ]
 }
