@@ -14,9 +14,6 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-RUN addgroup -S devfiles && adduser -S devfiles -G devfiles
-USER devfiles:devfiles
-
 COPY --from=build /app/target/*.jar app.jar
 
 ENV JAVA_OPTS="-XX:+UseG1GC -XX:+ExitOnOutOfMemoryError"
