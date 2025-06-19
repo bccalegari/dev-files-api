@@ -37,8 +37,6 @@ Built with **Java 21** and **Spring Boot**, it integrates with multiple services
 - Content negotiation for JSON and XML responses
 - Header versioning
 
-
-
 ## Technologies Used
 
 - Java 21
@@ -62,6 +60,11 @@ Built with **Java 21** and **Spring Boot**, it integrates with multiple services
 - Spring Boot Test
 
 Unit tests, integration tests, and end-to-end tests are implemented to ensure the reliability of the API.
+
+### CI/CD
+This project uses GitHub Actions for CI/CD. The workflow `build-and-test-project.yml` includes:
+- Building the application
+- Running tests to ensure code quality
 
 ## Prerequisites
 - Docker installed
