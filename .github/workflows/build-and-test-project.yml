@@ -28,5 +28,9 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Ensure Docker is running
+        run: |
+          sudo systemctl status docker || sudo systemctl start docker
+
       - name: Build and Test with Maven
         run: mvn -B clean verify
